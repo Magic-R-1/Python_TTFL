@@ -168,7 +168,7 @@ def obtenir_integralite_calendrier_joueur_avec_joueurID(joueur_id):
 def exporter_vers_Excel_generique(df, file_name):
 
     # Spécifiez le chemin du dossier
-    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Projet_Python\env1\Python_TTFL\Excel'
+    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel'
 
     # Obtenez la date du jour
     date_du_jour = datetime.now().strftime('%y_%m_%d')
@@ -187,7 +187,7 @@ def exporter_vers_Excel_generique(df, file_name):
 def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour):
 
     # Spécifiez le chemin du dossier
-    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Projet_Python\env1\Python_TTFL\Excel\TI'
+    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel\TI'
 
     # Récupération de la date du jour
     date_du_jour = datetime.strptime(date_du_jour, "%b %d, %Y") # Conversion en objet datetime
@@ -206,7 +206,7 @@ def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour):
 def exporter_vers_Excel_impact_poste(df_impact_poste):
 
     # Spécifiez le chemin du dossier
-    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Projet_Python\env1\Python_TTFL\Excel\Impact_poste'
+    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel\Impact_poste'
 
     # Obtenez la date du jour
     date_du_jour = datetime.now().strftime('%y_%m_%d')
