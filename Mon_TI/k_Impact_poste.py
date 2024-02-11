@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import sys
 import time
-from nba_api.stats.endpoints import boxscoretraditionalv2
 from z_Utilitaires import *
 from z_DataFrames_globaux import *
 
@@ -14,18 +13,10 @@ def obtenir_liste_ids_matchs_equipe(equipe_id):
 # Fonction pour obtenir les logs d'un match avec un match_id spécifique et l'identifiant d'une équipe
 def obtenir_logs_match_avec_matchID(match_id, equipe_id):
     global cache_match_data  # Pour accéder au dictionnaire global
+    global cache_postes_joueurs # Pour accéder au dictionnaire global
 
-    # Vérifier si les données du match sont déjà en cache
-    if match_id in cache_match_data:
-        logs_match = cache_match_data[match_id]
-    else:
-        # Si les données ne sont pas en cache, les récupérer via l'API
-        boxscore = boxscoretraditionalv2.BoxScoreTraditionalV2(game_id=match_id)
-        boxscore_data = boxscore.get_data_frames()
-        logs_match = boxscore_data[0]
-        
-        # Stocker les données en cache pour une utilisation ultérieure
-        cache_match_data[match_id] = logs_match
+    # Obtenir les logs du match
+    logs_match = remplir_cache_match_data(match_id)
 
     # Filtrer les données pour l'équipe spécifiée
     logs_equipe = logs_match.loc[logs_match['TEAM_ID'] != equipe_id]
@@ -58,9 +49,18 @@ def obtenir_df_moyenne_par_poste(match_id, equipe_id):
 
 # Fonction principale pour obtenir les moyennes pondérées TTFL par poste pour chaque équipe
 def obtenir_moyennes_ttfl_par_equipe():
+
+    # Tout début de fonction, on commence par charger le cache des feuilles de matchs
+    global cache_match_data  # Pour accéder au dictionnaire global
+    global cache_postes_joueurs  # Pour accéder au dictionnaire global
+    # charger_le_cache_global()
+    cache_match_data = charger_cache_match_data()
+    cache_postes_joueurs = charger_cache_postes_joueurs()
+    print(len(cache_match_data))
+
     # Obtenir la liste des identifiants des équipes
-    # liste_equipes_id = [1610612747, 1610612738]  # Utilisation d'une liste ordonnée
-    liste_equipes_id = obtenir_liste_equipes_ids_DF_globaux()
+    liste_equipes_id = [1610612747, 1610612738]  # Utilisation d'une liste ordonnée
+    # liste_equipes_id = obtenir_liste_equipes_ids_DF_globaux()
     total_equipes = len(liste_equipes_id)
 
     # Initialisation d'un dictionnaire pour stocker les résultats par équipe
@@ -112,15 +112,20 @@ def obtenir_moyennes_ttfl_par_equipe():
         # Ajouter les résultats de cette équipe au dictionnaire
         resultats_par_equipe[equipe_ABV] = moyenne_ttfl_ponderee
 
+    # Fin de boucle, donc on commence par sauvegarder le cache des feuilles de matchs
+    # sauvegarder_le_cache_global()
+    sauvegarder_cache_match_data(cache_match_data)
+    sauvegarder_cache_postes_joueurs(cache_postes_joueurs)
+
     # Création du DataFrame final à partir du dictionnaire
     df_impact_poste = pd.DataFrame(resultats_par_equipe)
-
-    # Ajout de la colonne 'Poste' en première position
-    df_impact_poste.insert(0, 'Poste', ['G', 'G-F', 'F-G', 'F', 'F-C', 'C-F', 'C'])
 
     # Conversion en integer
     somme_ttfl_totale = somme_ttfl_totale.astype(int)
     somme_min_totale = somme_min_totale.astype(int)
+
+    # Ajout de la colonne 'Poste' en première position
+    df_impact_poste.insert(0, 'Poste', ['G', 'G-F', 'F-G', 'F', 'F-C', 'C-F', 'C'])
     
     # Ajout des colonnes de somme totale
     df_impact_poste.insert(1, 'TTFL', somme_ttfl_totale)
@@ -128,6 +133,16 @@ def obtenir_moyennes_ttfl_par_equipe():
     moyenne_ttfl_ponderee_totale = np.round(somme_ttfl_totale / somme_min_totale,1)
     df_impact_poste.insert(3, 'Moyenne', moyenne_ttfl_ponderee_totale)
 
+    # Créer un DF avec les delta, plutôt que les valeurs
+    df_impact_poste_delta = df_impact_poste
+    
+    # Sélectionnez les colonnes de la 4ème à la 33ème
+    columns_to_subtract = df_impact_poste_delta.columns[4:]
+
+    # Soustraire la colonne 'Moyenne' des colonnes sélectionnées
+    df_impact_poste_delta[columns_to_subtract] = df_impact_poste_delta[columns_to_subtract].sub(df_impact_poste_delta['Moyenne'], axis=0)
+
+    print() # print vide pour le retour à la ligne
     exporter_vers_Excel_impact_poste(df_impact_poste)
 
 # Enregistrez le temps de début

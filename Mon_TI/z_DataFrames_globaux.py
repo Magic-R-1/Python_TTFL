@@ -1,6 +1,8 @@
 from nba_api.stats.endpoints import playernextngames, playergamelog, teamgamelog, commonplayerinfo, boxscoretraditionalv2
 from nba_api.stats.static import teams
 from json.decoder import JSONDecodeError
+import pickle
+from datetime import date
 
 ma_saison = '2023'
 
@@ -105,6 +107,28 @@ def obtenir_liste_equipes_ids_DF_globaux():
     liste_equipes_ids = [equipe['id'] for equipe in liste_equipes]
     return liste_equipes_ids
 
+def sauvegarder_cache_match_data(cache_match_data):
+    # Générer le nom de fichier avec la date du jour
+    today = date.today().strftime("%Y_%m_%d")
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data_{today}.pkl"
+    # Sauvegarder le cache dans le fichier
+    with open(file_path, 'wb') as file:
+        pickle.dump(cache_match_data, file)
+
+def charger_cache_match_data():
+    global cache_match_data  # Pour accéder au dictionnaire global
+
+    # Générer le nom de fichier avec la date du jour
+    today = date.today().strftime("%Y_%m_%d")
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data_{today}.pkl"
+    # Charger le cache depuis le fichier
+    try:
+        with open(file_path, 'rb') as file:
+            cache_match_data = pickle.load(file)
+    except FileNotFoundError:
+        cache_match_data = {}
+    return cache_match_data
+
 # Construire un cache avec un dictionnaire qui contient l'id des matchs et leur log
 def remplir_cache_match_data(match_id):
     global cache_match_data
@@ -114,6 +138,32 @@ def remplir_cache_match_data(match_id):
         boxscore_data = boxscore.get_data_frames()
         logs_match = boxscore_data[0]
         cache_match_data[match_id] = logs_match
+    else:
+        logs_match = cache_match_data[match_id]
+
+    return logs_match
+
+def sauvegarder_cache_postes_joueurs(cache_postes_joueurs):
+    # Générer le nom de fichier avec la date du jour
+    today = date.today().strftime("%Y_%m_%d")
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs_{today}.pkl"
+    # Sauvegarder le cache dans le fichier
+    with open(file_path, 'wb') as file:
+        pickle.dump(cache_postes_joueurs, file)
+
+def charger_cache_postes_joueurs():
+    global cache_postes_joueurs  # Pour accéder au dictionnaire global
+
+    # Générer le nom de fichier avec la date du jour
+    today = date.today().strftime("%Y_%m_%d")
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs_{today}.pkl"
+    # Charger le cache depuis le fichier
+    try:
+        with open(file_path, 'rb') as file:
+            cache_postes_joueurs = pickle.load(file)
+    except FileNotFoundError:
+        cache_postes_joueurs = {}
+    return cache_postes_joueurs
 
 # Construire un cache avec un dictionnaire qui contient l'id des joueurs et leur poste
 def remplir_cache_poste_abrege_data(player_id):

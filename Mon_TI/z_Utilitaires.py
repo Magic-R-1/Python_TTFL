@@ -164,6 +164,24 @@ def obtenir_integralite_calendrier_joueur_avec_joueurID(joueur_id):
         print(f"Une erreur s'est produite : {str(e)}")
         return None
 
+def charger_le_cache_global():
+    # Feuilles de matchs
+    global cache_match_data
+    charger_cache_match_data()
+
+    # Postes des joueurs
+    global cache_postes_joueurs
+    charger_cache_postes_joueurs()
+
+def sauvegarder_le_cache_global():
+    # Feuilles de matchs
+    global cache_match_data
+    sauvegarder_cache_match_data(cache_match_data)
+
+    # Postes des joueurs
+    global cache_postes_joueurs
+    sauvegarder_cache_postes_joueurs(cache_postes_joueurs)
+
 # Génerer un fichier Excel
 def exporter_vers_Excel_generique(df, file_name):
 
