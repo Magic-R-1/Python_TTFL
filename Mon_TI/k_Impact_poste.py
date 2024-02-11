@@ -56,11 +56,10 @@ def obtenir_moyennes_ttfl_par_equipe():
     # charger_le_cache_global()
     cache_match_data = charger_cache_match_data()
     cache_postes_joueurs = charger_cache_postes_joueurs()
-    print(len(cache_match_data))
 
     # Obtenir la liste des identifiants des équipes
-    liste_equipes_id = [1610612747, 1610612738]  # Utilisation d'une liste ordonnée
-    # liste_equipes_id = obtenir_liste_equipes_ids_DF_globaux()
+    # liste_equipes_id = [1610612747, 1610612738]  # Utilisation d'une liste ordonnée
+    liste_equipes_id = obtenir_liste_equipes_ids_DF_globaux()
     total_equipes = len(liste_equipes_id)
 
     # Initialisation d'un dictionnaire pour stocker les résultats par équipe
@@ -142,8 +141,12 @@ def obtenir_moyennes_ttfl_par_equipe():
     # Soustraire la colonne 'Moyenne' des colonnes sélectionnées
     df_impact_poste_delta[columns_to_subtract] = df_impact_poste_delta[columns_to_subtract].sub(df_impact_poste_delta['Moyenne'], axis=0)
 
-    print() # print vide pour le retour à la ligne
-    exporter_vers_Excel_impact_poste(df_impact_poste)
+    # Le transposer, puis remettre les colonnes qui sont devenus les index
+    df_impact_poste_delta_transposed = df_impact_poste_delta.transpose() # Transposer le DataFrame
+    df_impact_poste_delta_transposed.reset_index(drop=False, inplace=True) # Réinitialiser les index et rétablir les intitulés de colonnes
+    # print(df_impact_poste_delta_transposed)
+    print()
+    exporter_vers_Excel_impact_poste(df_impact_poste_delta_transposed)
 
 # Enregistrez le temps de début
 temps_debut = time.time()

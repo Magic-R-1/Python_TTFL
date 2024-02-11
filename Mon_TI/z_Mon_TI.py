@@ -21,8 +21,8 @@ from z_Utilitaires import exporter_vers_Excel_mon_TI
 temps_debut = time.time()
 
 # Liste d'identifiants de joueurs
-ids_joueurs = [202681, 1627742, 201942, 1631094, 202331, 1630567, 1630169, 203078, 1641706, 1630595, 1631096, 1627749, 1628978, 1630596, 1630532, 1631105, 201935, 1628991, 1628386, 1628398, 202696, 1629628, 201566, 1626179, 202699, 1641705, 203952, 1627832, 203924]
-date_du_jour = '10/02/2024'
+ids_joueurs = [1628368, 1627759, 1631096, 1629639]
+date_du_jour = '11/02/2024'
 
 # Conversion de la date du jour
 date_du_jour = datetime.strptime(date_du_jour, '%d/%m/%Y') # Convertir la chaîne en objet datetime
