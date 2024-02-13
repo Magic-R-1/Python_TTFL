@@ -21,8 +21,8 @@ from z_Utilitaires import exporter_vers_Excel_mon_TI
 temps_debut = time.time()
 
 # Liste d'identifiants de joueurs
-ids_joueurs = [1628368, 1627759, 1631096, 1629639]
-date_du_jour = '11/02/2024'
+ids_joueurs = [203507, 1630162, 203081, 1628368, 1627759, 1626157, 1631094, 203078, 1630595, 1630532, 1631105, 203114, 1630559, 1626156, 203924, 1629639]
+date_du_jour = '13/02/2024'
 
 # Conversion de la date du jour
 date_du_jour = datetime.strptime(date_du_jour, '%d/%m/%Y') # Convertir la chaîne en objet datetime
@@ -177,5 +177,5 @@ exporter_vers_Excel_mon_TI(mon_TI, date_du_jour)
 temps_fin = time.time()
 # Calculez la durée d'exécution
 duree_execution = temps_fin - temps_debut
-duree_execution = round(duree_execution,1)
+duree_execution = int(round(duree_execution,0))
 print(f"Le code a pris {duree_execution} secondes pour s'exécuter.")

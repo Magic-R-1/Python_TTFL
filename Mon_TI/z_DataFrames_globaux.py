@@ -109,8 +109,9 @@ def obtenir_liste_equipes_ids_DF_globaux():
 
 def sauvegarder_cache_match_data(cache_match_data):
     # Générer le nom de fichier avec la date du jour
-    today = date.today().strftime("%Y_%m_%d")
-    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data_{today}.pkl"
+    # today = date.today().strftime("%Y_%m_%d")
+    # file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data_{today}.pkl"
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data.pkl"
     # Sauvegarder le cache dans le fichier
     with open(file_path, 'wb') as file:
         pickle.dump(cache_match_data, file)
@@ -119,8 +120,9 @@ def charger_cache_match_data():
     global cache_match_data  # Pour accéder au dictionnaire global
 
     # Générer le nom de fichier avec la date du jour
-    today = date.today().strftime("%Y_%m_%d")
-    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data_{today}.pkl"
+    # today = date.today().strftime("%Y_%m_%d")
+    # file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data_{today}.pkl"
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data.pkl"
     # Charger le cache depuis le fichier
     try:
         with open(file_path, 'rb') as file:
@@ -145,8 +147,9 @@ def remplir_cache_match_data(match_id):
 
 def sauvegarder_cache_postes_joueurs(cache_postes_joueurs):
     # Générer le nom de fichier avec la date du jour
-    today = date.today().strftime("%Y_%m_%d")
-    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs_{today}.pkl"
+    # today = date.today().strftime("%Y_%m_%d")
+    # file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs_{today}.pkl"
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs.pkl"
     # Sauvegarder le cache dans le fichier
     with open(file_path, 'wb') as file:
         pickle.dump(cache_postes_joueurs, file)
@@ -155,8 +158,9 @@ def charger_cache_postes_joueurs():
     global cache_postes_joueurs  # Pour accéder au dictionnaire global
 
     # Générer le nom de fichier avec la date du jour
-    today = date.today().strftime("%Y_%m_%d")
-    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs_{today}.pkl"
+    # today = date.today().strftime("%Y_%m_%d")
+    # file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs_{today}.pkl"
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs.pkl"
     # Charger le cache depuis le fichier
     try:
         with open(file_path, 'rb') as file:

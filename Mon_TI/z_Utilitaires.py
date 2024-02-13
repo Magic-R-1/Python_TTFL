@@ -221,7 +221,7 @@ def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour):
     mon_TI.to_excel(excel_writer=chemin_nom_excel, index=False)
     print('Fichier Excel enregistré : ',nom_fichier_excel)
 
-def exporter_vers_Excel_impact_poste(df_impact_poste):
+def exporter_vers_Excel_impact_poste(df_impact_poste, suffixe=None):
 
     # Spécifiez le chemin du dossier
     chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel\Impact_poste'
@@ -230,7 +230,10 @@ def exporter_vers_Excel_impact_poste(df_impact_poste):
     date_du_jour = datetime.now().strftime('%y_%m_%d')
 
     # Créez le nom du fichier Excel
-    nom_fichier_excel = f'Impact_poste_{date_du_jour}.xlsx'
+    if suffixe is not None:
+        nom_fichier_excel = f'Impact_poste_{date_du_jour}{suffixe}.xlsx'
+    else:
+        nom_fichier_excel = f'Impact_poste_{date_du_jour}.xlsx'
 
     # Utilisez os.path.join pour former le chemin complet du fichier
     chemin_nom_excel = os.path.join(chemin_fichier_excel, nom_fichier_excel)
