@@ -21,8 +21,8 @@ from z_Utilitaires import exporter_vers_Excel_mon_TI
 temps_debut = time.time()
 
 # Liste d'identifiants de joueurs
-ids_joueurs = [203507, 1630162, 203081, 1628368, 1627759, 1626157, 1631094, 203078, 1630595, 1630532, 1631105, 203114, 1630559, 1626156, 203924, 1629639]
-date_du_jour = '13/02/2024'
+ids_joueurs = [202681, 1627742, 1628368, 1627759, 1628374, 1631094, 202331, 1630567, 1630169, 203078, 1641706, 1630595, 1627749, 1628978, 1630596, 1630532, 1631105, 1627750, 201935, 1628991, 1628386, 1628398, 1629008, 1629628, 201566, 202699, 1630178, 1641705, 203897, 203952, 1630559, 1626156, 1627832, 1629639]
+date_du_jour = '14/02/2024'
 
 # Conversion de la date du jour
 date_du_jour = datetime.strptime(date_du_jour, '%d/%m/%Y') # Convertir la chaîne en objet datetime
@@ -176,6 +176,7 @@ exporter_vers_Excel_mon_TI(mon_TI, date_du_jour)
 # Enregistrez le temps de fin
 temps_fin = time.time()
 # Calculez la durée d'exécution
-duree_execution = temps_fin - temps_debut
-duree_execution = int(round(duree_execution,0))
-print(f"Le code a pris {duree_execution} secondes pour s'exécuter.")
+duree_execution = temps_fin - temps_debut  # Calculer la durée d'exécution
+minutes = int(duree_execution // 60)  # Convertir la durée en minutes
+secondes = int(duree_execution % 60)  # Calculer les secondes restantes
+print(f"Le code a pris {minutes} minutes et {secondes} secondes pour s'exécuter.")  # Afficher le temps d'exécution

@@ -123,13 +123,15 @@ def obtenir_delta_ttfl_postes():
 
         # Boucle sur chaque match de l'équipe
         for match_index, match_id in enumerate(df_matchs_equipe['Game_ID'], start=1):
+
+            # Message de progression
             match_progression = (match_index + total_matchs - len(df_matchs_equipe)) / total_matchs * 100
             equipe_index = liste_equipes_id.index(equipe_id) + 1
             equipe_abv = obtenir_equipeABV_avec_equipeID(equipe_id)
             equipe_progression = (equipe_index / total_equipes) * 100
 
             match_message = f"\r Équipe {equipe_abv} {equipe_index}/{total_equipes} ({equipe_progression:.2f}%) - Match {match_index} sur {total_matchs} ({match_progression:.2f}%)"
-            sys.stdout.write(match_message + ' ' * (len(match_message) - 1))
+            sys.stdout.write(match_message)
             sys.stdout.flush()
 
             df_statistiques_match = obtenir_df_moyenne_par_poste(match_id, equipe_id)  # Obtenir les statistiques par poste pour le match
@@ -166,16 +168,25 @@ def obtenir_delta_ttfl_postes():
 
     return df_impact_poste_delta  # Renvoyer le DataFrame des variations
 
-# Point d'entrée du programme
-if __name__ == "__main__":
+def obtenir_transposer_df_delta():
+    # Obtenir le df_delta, le transposer, et l'exporter vers Excel
+    df_impact_poste_delta = obtenir_delta_ttfl_postes()  # Appeler la fonction principale
+    df_transposed = transposer_mon_DF(df_impact_poste_delta) # Transposer
+    return df_transposed
 
-    temps_debut = time.time()  # Enregistrer le temps de début d'exécution
-
+def obtenir_transposer_exporter_df_delta():
     # Obtenir le df_delta, le transposer, et l'exporter vers Excel
     df_impact_poste_delta = obtenir_delta_ttfl_postes()  # Appeler la fonction principale
     df_transposed = transposer_mon_DF(df_impact_poste_delta) # Transposer
     print() # Print vide pour clean la progression
     exporter_vers_Excel_impact_poste(df_transposed, '_transposed') # Exporter vers Excel
+
+# Point d'entrée du programme
+if __name__ == "__main__":
+
+    temps_debut = time.time()  # Enregistrer le temps de début d'exécution
+
+    obtenir_transposer_exporter_df_delta()
 
     temps_fin = time.time()  # Enregistrer le temps de fin d'exécution
     duree_execution = temps_fin - temps_debut  # Calculer la durée d'exécution
