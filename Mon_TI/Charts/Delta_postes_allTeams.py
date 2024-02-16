@@ -38,7 +38,7 @@ def formater_df_avec_poste_voulu(poste, df_delta_complet):
     # Return le DataFrame résultant
     return df_delta_poste_unique
 
-def creation_et_affichage_du_graphique(poste, df_delta_poste_unique):
+def creation_et_affichage_du_graphique(poste, df_delta_poste_unique, liste_equipes_en_gras):
 
     # Trier le df
     df_delta_poste_unique = df_delta_poste_unique.sort_values(by='Delta', ascending=True)
@@ -89,8 +89,13 @@ def creation_et_affichage_du_graphique(poste, df_delta_poste_unique):
         x_position = team
         y_position = delta + 0.1  # Légèrement au-dessus de la valeur de delta
 
-        # Ajout du texte
-        plt.text(x_position, y_position, team, ha='center', va='bottom')
+        # Vérifier si l'équipe doit être en gras
+        if team in liste_equipes_en_gras:
+            # Ajout du texte en gras
+            plt.text(x_position, y_position, team, fontweight='bold', ha='center', va='bottom')
+        else:
+            # Ajout du texte normal
+            plt.text(x_position, y_position, team, ha='center', va='bottom')
 
     # Tracer une ligne rouge au niveau de Y = 0
     plt.axhline(y=0, color='red', linestyle='--')
@@ -107,9 +112,11 @@ def affichage_du_graphique_avec_boucle_postes():
 
     liste_de_postes = ['G']
 
+    liste_equipes_en_gras = ['SAS', 'MIN']
+        
     for poste in liste_de_postes:
         print(poste)
         df_delta_poste_unique = formater_df_avec_poste_voulu(poste, df_delta_complet)
-        creation_et_affichage_du_graphique(poste, df_delta_poste_unique)
+        creation_et_affichage_du_graphique(poste, df_delta_poste_unique, liste_equipes_en_gras)
 
 affichage_du_graphique_avec_boucle_postes()

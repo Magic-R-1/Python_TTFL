@@ -158,13 +158,20 @@ def obtenir_delta_ttfl_postes():
     df_impact_poste.insert(0, 'Poste', ['G', 'G-F', 'F-G', 'F', 'F-C', 'C-F', 'C'])
     df_impact_poste.insert(1, 'TTFL', somme_ttfl_totale)
     df_impact_poste.insert(2, 'Minutes', somme_min_totale)
-    moyenne_ttfl_ponderee_totale = np.round(somme_ttfl_totale / somme_min_totale, 1)
+    moyenne_ttfl_ponderee_totale = np.round(somme_ttfl_totale / somme_min_totale, 1) # Calcul de la moyenne pondérée
     df_impact_poste.insert(3, 'Moyenne', moyenne_ttfl_ponderee_totale)
 
     # Créer une copie du DataFrame des résultats pour calculer les variations
     df_impact_poste_delta = df_impact_poste.copy()
     columns_to_subtract = df_impact_poste_delta.columns[4:]  # Sélectionner les colonnes à soustraire
     df_impact_poste_delta[columns_to_subtract] = df_impact_poste_delta[columns_to_subtract].sub(df_impact_poste_delta['Moyenne'], axis=0)  # Soustraire les valeurs de la colonne 'Moyenne'
+
+    # Calculer la valeur minimum le long de l'axe des colonnes pour chaque ligne
+    valeurs_minimum_par_ligne = df_impact_poste_delta.iloc[:,4:].min(axis=1)
+    valeurs_maximum_par_ligne = df_impact_poste_delta.iloc[:,4:].max(axis=1)
+
+    df_impact_poste_delta.insert(3, 'Minimum', valeurs_minimum_par_ligne)
+    df_impact_poste_delta.insert(4, 'Maximum', valeurs_maximum_par_ligne)
 
     return df_impact_poste_delta  # Renvoyer le DataFrame des variations
 

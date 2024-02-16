@@ -1,5 +1,6 @@
 import pandas as pd
 from nba_api.stats.endpoints import commonteamroster
+from nba_api.stats.static  import players
 from z_DataFrames_globaux import *
 
 import os
@@ -28,6 +29,16 @@ def obtenir_joueurNom_avec_joueurID(joueur_id):
     except Exception as e:
         print(f"Une erreur s'est produite lors de l'obtention du nom du joueur {joueur_id}: {str(e)}")
         return None
+
+def obtenir_joueurID_avec_joueurNom(joueur_nom):
+    player_dict = players.get_players()
+
+    #Use ternary operator or write function
+    #Names are case sensitive
+    joueur_nom = 'Donte DiVincenzo'
+    player =[player for player in player_dict if player['full_name']==joueur_nom][0]
+    player_id = player['id']
+    print(player_id)
 
 # Obtenir l'ID de l'equipe du joueur avec son ID
 def obtenir_equipeID_avec_joueurID(joueur_id):
