@@ -30,7 +30,9 @@ def formater_df_avec_poste_voulu(poste, df_delta_complet):
     df_delta_poste_unique.columns = ["Team", "Delta"]
 
     # Supprimer les lignes inintéressantes
-    df_delta_poste_unique = df_delta_poste_unique.drop(df_delta_poste_unique.index[[0,1,2]])
+    # df_delta_poste_unique = df_delta_poste_unique.drop(df_delta_poste_unique.index[[0,1,2]])
+    df_delta_poste_unique = df_delta_poste_unique.drop(df_delta_poste_unique.index[[0]])
+    # À tester suite nouveau tableau impact poste
 
     # Réinitialiser l'index
     df_delta_poste_unique.reset_index(drop=True, inplace=True)

@@ -173,6 +173,9 @@ def obtenir_delta_ttfl_postes():
     df_impact_poste_delta.insert(3, 'Minimum', valeurs_minimum_par_ligne)
     df_impact_poste_delta.insert(4, 'Maximum', valeurs_maximum_par_ligne)
 
+    # Supprime les colonnes de sommes TTFL et Minutes
+    df_impact_poste_delta = df_impact_poste_delta.drop(df_impact_poste_delta.columns[[2, 3]], axis=1)
+
     return df_impact_poste_delta  # Renvoyer le DataFrame des variations
 
 def obtenir_transposer_df_delta():
@@ -186,7 +189,7 @@ def obtenir_transposer_exporter_df_delta():
     df_impact_poste_delta = obtenir_delta_ttfl_postes()  # Appeler la fonction principale
     df_transposed = transposer_mon_DF(df_impact_poste_delta) # Transposer
     print() # Print vide pour clean la progression
-    exporter_vers_Excel_impact_poste(df_transposed, '_transposed') # Exporter vers Excel
+    exporter_vers_Excel_impact_poste(df_transposed) # Exporter vers Excel
 
 # Point d'entrée du programme
 if __name__ == "__main__":

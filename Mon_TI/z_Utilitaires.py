@@ -32,10 +32,6 @@ def obtenir_joueurNom_avec_joueurID(joueur_id):
 
 def obtenir_joueurID_avec_joueurNom(joueur_nom):
     player_dict = players.get_players()
-
-    #Use ternary operator or write function
-    #Names are case sensitive
-    joueur_nom = 'Donte DiVincenzo'
     player =[player for player in player_dict if player['full_name']==joueur_nom][0]
     player_id = player['id']
     print(player_id)
@@ -238,7 +234,7 @@ def exporter_vers_Excel_impact_poste(df_impact_poste, suffixe=None):
     chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel\Impact_poste'
 
     # Obtenez la date du jour
-    date_du_jour = datetime.now().strftime('%y_%m_%d')
+    date_du_jour = datetime.now().strftime('%Y_%m_%d')
 
     # Créez le nom du fichier Excel
     if suffixe is not None:
