@@ -102,7 +102,7 @@ def obtenir_liste_equipes_DF_globaux():
         return liste_equipes
 
 # Fonction pour obtenir la liste des équipes avec leurs identifiants
-def obtenir_liste_equipes_ids_DF_globaux():
+def obtenir_liste_equipes_IDs_DF_globaux():
     liste_equipes = teams.get_teams()
     liste_equipes_ids = [equipe['id'] for equipe in liste_equipes]
     return liste_equipes_ids

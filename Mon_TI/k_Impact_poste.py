@@ -7,7 +7,7 @@ from z_DataFrames_globaux import *  # Import des DataFrames globaux
 
 # Fonction pour obtenir la liste des identifiants des équipes à partir des données globales
 def obtenir_liste_equipes_ids():
-    return obtenir_liste_equipes_ids_DF_globaux()
+    return obtenir_liste_equipes_IDs_DF_globaux()
     # return [1610612747, 1610612738]
 
 # Fonction pour obtenir la liste des identifiants des matchs d'une équipe
@@ -38,6 +38,10 @@ def obtenir_logs_match_avec_matchID(match_id, equipe_id):
     # Calculer le score TTFL total pour chaque joueur dans le temps de jeu
     logs_equipe['Score_TTFL_MIN'] = logs_equipe['MIN'] * logs_equipe['Score_TTFL']
     
+    print()
+    print('logs_equipe : ')
+    print(logs_equipe)
+
     return logs_equipe
 
 # Fonction pour charger les caches des feuilles de matchs et des postes des joueurs
@@ -71,6 +75,10 @@ def obtenir_df_moyenne_par_poste(match_id, equipe_id):
     df_postes['Somme_TTFL'] = sommes_TTFL
     df_postes['Somme_MIN'] = sommes_MIN
 
+    print()
+    print('df_postes : ')
+    print(df_postes)
+
     return df_postes
 
 # Fonction pour calculer la moyenne pondérée TTFL par poste à partir des statistiques
@@ -97,7 +105,19 @@ def transposer_mon_DF(df_impact_poste_delta):
     # Supprimer la colonne 'Poste' des index, elle n'est plus d'index 0
     df_transposed = df_transposed.rename_axis(None, axis=1)
 
-    # Reset à nouveau l'index pour le faire partir de 0 après les intitulés de colonnes
+    # Reset de l'index après manipulations
+    df_transposed.reset_index(drop=True, inplace=True)
+
+    # Trier les colonnes par ordre alphabétique de la colonne 1 à partir de la ligne 3
+    df_not_sorted = df_transposed.iloc[:3]
+    print()
+    print(df_not_sorted)
+    df_sorted  = df_transposed.iloc[3:].sort_values(by=df_transposed.columns[0])
+    print()
+    print(df_sorted)
+    df_transposed = pd.concat([df_not_sorted, df_sorted])
+
+    # Reset de l'index après manipulations
     df_transposed.reset_index(drop=True, inplace=True)
 
     return df_transposed
@@ -174,17 +194,17 @@ def obtenir_delta_ttfl_postes():
     df_impact_poste_delta.insert(4, 'Maximum', valeurs_maximum_par_ligne)
 
     # Supprime les colonnes de sommes TTFL et Minutes
-    df_impact_poste_delta = df_impact_poste_delta.drop(df_impact_poste_delta.columns[[2, 3]], axis=1)
+    df_impact_poste_delta = df_impact_poste_delta.drop(df_impact_poste_delta.columns[[1, 2]], axis=1)
 
     return df_impact_poste_delta  # Renvoyer le DataFrame des variations
 
-def obtenir_transposer_df_delta():
+def return_df_transposed():
     # Obtenir le df_delta, le transposer, et l'exporter vers Excel
     df_impact_poste_delta = obtenir_delta_ttfl_postes()  # Appeler la fonction principale
     df_transposed = transposer_mon_DF(df_impact_poste_delta) # Transposer
     return df_transposed
 
-def obtenir_transposer_exporter_df_delta():
+def Excel_export_df_transposed():
     # Obtenir le df_delta, le transposer, et l'exporter vers Excel
     df_impact_poste_delta = obtenir_delta_ttfl_postes()  # Appeler la fonction principale
     df_transposed = transposer_mon_DF(df_impact_poste_delta) # Transposer
@@ -196,7 +216,7 @@ if __name__ == "__main__":
 
     temps_debut = time.time()  # Enregistrer le temps de début d'exécution
 
-    obtenir_transposer_exporter_df_delta()
+    Excel_export_df_transposed()
 
     temps_fin = time.time()  # Enregistrer le temps de fin d'exécution
     duree_execution = temps_fin - temps_debut  # Calculer la durée d'exécution
