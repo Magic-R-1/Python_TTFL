@@ -89,7 +89,7 @@ def afficher_message_de_progression(match_index, liste_matchs_IDs, liste_equipes
     equipe_index = liste_equipes_IDs.index(equipe_id) + 1
     equipe_progression = int(round((equipe_index / total_equipes) * 100,0)) # Pourcentage de progression de l'équipe
 
-    match_message = f"\rÉquipe {equipe_ABV} {equipe_index}/{total_equipes} ({equipe_progression:.2f}%) - Match {match_index} sur {total_matchs} ({match_progression:.2f}%)"
+    match_message = f"\rÉquipe {equipe_ABV} {equipe_index}/{total_equipes} ({equipe_progression:.0f}%) - Match {match_index} sur {total_matchs} ({match_progression:.0f}%)"
     
     sys.stdout.write(match_message)
     sys.stdout.flush()
