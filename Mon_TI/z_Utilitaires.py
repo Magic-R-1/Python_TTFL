@@ -33,8 +33,7 @@ def obtenir_joueurNom_avec_joueurID(joueur_id):
 def obtenir_joueurID_avec_joueurNom(joueur_nom):
     player_dict = players.get_players()
     player =[player for player in player_dict if player['full_name']==joueur_nom][0]
-    player_id = player['id']
-    print(player_id)
+    return player['id']
 
 # Obtenir l'ID de l'equipe du joueur avec son ID
 def obtenir_equipeID_avec_joueurID(joueur_id):
@@ -171,24 +170,6 @@ def obtenir_integralite_calendrier_joueur_avec_joueurID(joueur_id):
         print(f"Une erreur s'est produite : {str(e)}")
         return None
 
-def charger_le_cache_global():
-    # Feuilles de matchs
-    global cache_match_data
-    charger_cache_match_data()
-
-    # Postes des joueurs
-    global cache_postes_joueurs
-    charger_cache_postes_joueurs()
-
-def sauvegarder_le_cache_global():
-    # Feuilles de matchs
-    global cache_match_data
-    sauvegarder_cache_match_data(cache_match_data)
-
-    # Postes des joueurs
-    global cache_postes_joueurs
-    sauvegarder_cache_postes_joueurs(cache_postes_joueurs)
-
 # Génerer un fichier Excel
 def exporter_vers_Excel_generique(df, file_name):
 
@@ -208,7 +189,7 @@ def exporter_vers_Excel_generique(df, file_name):
     df.to_excel(excel_writer=chemin_nom_excel, index=False)
     print('Fichier Excel enregistré : ',nom_fichier_excel)
 
-# Génrer un fichier Excel
+# Génerer un fichier Excel
 def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour):
 
     # Spécifiez le chemin du dossier

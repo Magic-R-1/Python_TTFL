@@ -5,7 +5,7 @@ import sys
 
 from a_Equipes_Noms import generer_df_quipe_nom
 from b_Postes import generer_df_postes
-# from c_Blessures import rien
+from c_Blessures import obtenir_DF_joueurs_status
 from d_Back_to_back import est_en_back_to_back
 from e_Moyennes import generer_df_moyennes
 from f_Nombre_matchs_joues_X_derniers_jours import get_games_played_last_X_days
@@ -21,7 +21,7 @@ from z_Utilitaires import exporter_vers_Excel_mon_TI
 temps_debut = time.time()
 
 # Liste d'identifiants de joueurs
-ids_joueurs = [203076, 1628983, 1627742, 1628368, 1626164, 1627759, 203944, 1630163, 1628374, 1631094, 202331, 1630567, 1630169, 1629627, 203078, 1641706, 1630595, 1628978, 1628978, 1630596, 1630532, 1631105, 1627750, 201935, 1628386, 1628398, 1629008, 1629628, 201566, 202699, 1630178, 1641705, 203952, 1630559, 1626156, 1627832, 202330]
+ids_joueurs = [203076, 1628983, 1627742, 1628368, 1626164, 1627759, 203944, 1630163, 1628374, 1631094, 202331, 1630567, 1630169, 1629627, 203078, 1641706, 1630595, 1630166, 1628978, 1630596, 1630532, 1631105, 1627750, 201935, 1628386, 1628398, 1629008, 1629628, 201566, 202699, 1630178, 1641705, 203952, 1630559, 1626156, 1627832, 202330]
 date_du_jour = '22/02/2024'
 
 # Conversion de la date du jour
@@ -69,6 +69,13 @@ for joueur_index, joueur_id in enumerate(ids_joueurs, start=1):
     # Équipes, Noms
     resultats = generer_df_quipe_nom(joueur_id)
     df_equipes_noms.loc[len(df_equipes_noms)] = resultats
+    # ---------------------------------------------------------------------------------------
+
+    # ---------------------------------------------------------------------------------------
+    # Statut de blessure
+    # Faire quelque chose uniquement la première fois
+    if joueur_index == 1:
+        DF_joueurs_status = obtenir_DF_joueurs_status(ids_joueurs)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
@@ -134,6 +141,7 @@ for joueur_index, joueur_id in enumerate(ids_joueurs, start=1):
 
 # Enlever les joueurs
 df_postes = df_postes.drop(columns=['Joueur']) # Postes
+DF_joueurs_status = DF_joueurs_status.drop(columns=['Joueur']) # Statut de blessure
 df_back_to_back = df_back_to_back.drop(columns=['Joueur']) # B2B
 df_moyennes = df_moyennes.drop(columns=['Joueur']) # Moyennes
 df_matchs_joues_X_derniers_jours = df_matchs_joues_X_derniers_jours.drop(columns=['Joueur']) # Nombre de matchs joués
@@ -154,6 +162,7 @@ df_X_derniers_matchs = df_X_derniers_matchs.replace(0,"-") # Remplacer les 0 par
 # Concaténation des tableaux
 mon_TI = pd.DataFrame()
 mon_TI = pd.concat([mon_TI, df_equipes_noms], axis=1)
+mon_TI = pd.concat([mon_TI, DF_joueurs_status], axis=1)
 mon_TI = pd.concat([mon_TI, df_postes], axis=1)
 mon_TI = pd.concat([mon_TI, df_back_to_back], axis=1)
 mon_TI = pd.concat([mon_TI, df_moyennes], axis=1)

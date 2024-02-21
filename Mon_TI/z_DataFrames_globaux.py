@@ -8,12 +8,13 @@ ma_saison = '2023'
 
 prochains_matchs_data_dict = {}
 game_log_data_dict = {}
-equipe_derniers_matchs_dict = {}
+equipe_derniers_matchs_dict = {}    # 
 joueur_info_dict = {}
 liste_equipes_dict = {}
 cache_match_data = {}
 cache_postes_joueurs = {}
-cache_abv_equipes = {} # Définir un dictionnaire global pour stocker les abréviations des équipes
+cache_abv_equipes = {}              # Définir un dictionnaire global pour stocker les abréviations des équipes
+cache_noms_joueurs = {}
 
 # ----------------------------------------
 # Obtenir les prochains matchs d'un joueur
@@ -106,11 +107,51 @@ def obtenir_liste_equipes_IDs_DF_globaux():
     liste_equipes = teams.get_teams()
     liste_equipes_ids = [equipe['id'] for equipe in liste_equipes]
     return liste_equipes_ids
+# --------------------------------------------------------------------------------------------
 
+
+
+# --------------------------------------------------------------------------------------------
+def sauvegarder_cache_noms_joueurs(cache_noms_joueurs):
+    # Générer le nom de fichier avec la date du jour
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_noms_joueurs.pkl"
+    # Sauvegarder le cache dans le fichier
+    with open(file_path, 'wb') as file:
+        pickle.dump(cache_noms_joueurs, file)
+
+def charger_cache_noms_joueurs():
+    global cache_noms_joueurs  # Pour accéder au dictionnaire global
+
+    # Générer le nom de fichier avec la date du jour
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_noms_joueurs.pkl"
+    # Charger le cache depuis le fichier
+    try:
+        with open(file_path, 'rb') as file:
+            cache_noms_joueurs = pickle.load(file)
+    except FileNotFoundError:
+        cache_noms_joueurs = {}
+    return cache_noms_joueurs
+
+# Construire un cache avec un dictionnaire qui contient l'id des matchs et leur log
+def remplir_cache_noms_joueurs(joueur_id):
+    # Importer le module à l'intérieur de la fonction pour éviter l'importation circulaire
+    from z_Utilitaires import obtenir_joueurNom_avec_joueurID
+    global cache_noms_joueurs
+
+    if joueur_id not in cache_noms_joueurs:
+
+        joueur_nom = obtenir_joueurNom_avec_joueurID(joueur_id)
+        cache_noms_joueurs[joueur_id] = joueur_nom
+    else:
+        joueur_nom = cache_noms_joueurs[joueur_id]
+
+    return joueur_nom
+# --------------------------------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------------------------------
 def sauvegarder_cache_match_data(cache_match_data):
     # Générer le nom de fichier avec la date du jour
-    # today = date.today().strftime("%Y_%m_%d")
-    # file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data_{today}.pkl"
     file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data.pkl"
     # Sauvegarder le cache dans le fichier
     with open(file_path, 'wb') as file:
@@ -120,8 +161,6 @@ def charger_cache_match_data():
     global cache_match_data  # Pour accéder au dictionnaire global
 
     # Générer le nom de fichier avec la date du jour
-    # today = date.today().strftime("%Y_%m_%d")
-    # file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data_{today}.pkl"
     file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/BoxScoreTraditionalV2_cache/cache_match_data.pkl"
     # Charger le cache depuis le fichier
     try:
@@ -144,11 +183,13 @@ def remplir_cache_match_data(match_id):
         logs_match = cache_match_data[match_id]
 
     return logs_match
+# --------------------------------------------------------------------------------------------
 
+
+
+# --------------------------------------------------------------------------------------------
 def sauvegarder_cache_postes_joueurs(cache_postes_joueurs):
     # Générer le nom de fichier avec la date du jour
-    # today = date.today().strftime("%Y_%m_%d")
-    # file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs_{today}.pkl"
     file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs.pkl"
     # Sauvegarder le cache dans le fichier
     with open(file_path, 'wb') as file:
@@ -158,8 +199,6 @@ def charger_cache_postes_joueurs():
     global cache_postes_joueurs  # Pour accéder au dictionnaire global
 
     # Générer le nom de fichier avec la date du jour
-    # today = date.today().strftime("%Y_%m_%d")
-    # file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs_{today}.pkl"
     file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_postes_joueurs.pkl"
     # Charger le cache depuis le fichier
     try:
@@ -183,9 +222,33 @@ def remplir_cache_poste_abrege_data(player_id):
         cache_postes_joueurs[player_id] = poste
 
     return poste
+# --------------------------------------------------------------------------------------------
+
+
+
+# --------------------------------------------------------------------------------------------
+def sauvegarder_cache_equipe_abv(cache_equipe_abv):
+    # Générer le nom de fichier avec la date du jour
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_equipe_abv.pkl"
+    # Sauvegarder le cache dans le fichier
+    with open(file_path, 'wb') as file:
+        pickle.dump(cache_equipe_abv, file)
+
+def charger_cache_equipe_abv():
+    global cache_equipe_abv  # Pour accéder au dictionnaire global
+
+    # Générer le nom de fichier avec la date du jour
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/CommonPlayerInfo_cache/cache_equipe_abv.pkl"
+    # Charger le cache depuis le fichier
+    try:
+        with open(file_path, 'rb') as file:
+            cache_equipe_abv = pickle.load(file)
+    except FileNotFoundError:
+        cache_equipe_abv = {}
+    return cache_equipe_abv
 
 # Construire un cache avec un dictionnaire qui contient l'id des équipes et leur abbréviation
-def remplir_cache_equipe_abv_data(equipe_id):
+def remplir_cache_equipe_abv(equipe_id):
     # Importer le module à l'intérieur de la fonction pour éviter l'importation circulaire
     from z_Utilitaires import obtenir_equipeABV_avec_equipeID
 
@@ -198,3 +261,4 @@ def remplir_cache_equipe_abv_data(equipe_id):
         cache_abv_equipes[equipe_id] = abv_equipe
 
     return abv_equipe
+# --------------------------------------------------------------------------------------------
