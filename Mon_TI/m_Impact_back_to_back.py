@@ -1,6 +1,5 @@
 import pandas as pd
-from datetime import datetime
-from d_Back_to_back import est_en_back_to_back
+from d_Back_to_back import obtenir_df_back_to_back
 from z_DataFrames_globaux import obtenir_game_log_DF_globaux
 from z_Utilitaires import calcul_score_TTFL, obtenir_joueurNom_avec_joueurID
 
@@ -59,40 +58,39 @@ def obtenir_delta_B2B(joueur_id):
 
     return delta_B2B
 
-def obtenir_resultats_impact_B2B(joueur_id, date_du_jour):
+def obtenir_resultats_impact_B2B(ids_joueurs, date_du_jour):
 
-    joueur_nom = obtenir_joueurNom_avec_joueurID(joueur_id)
+    # Créer le DataFrame final avec les colonnes nécessaires
+    df_impact_B2B = pd.DataFrame(columns=['Joueur', 'delta_B2B', 'nombre_de_B2B'])
 
-    if est_en_back_to_back(joueur_id, date_du_jour)[1] == 'O':
-        delta_B2B = obtenir_delta_B2B(joueur_id)
-        nombre_de_B2B = obtenir_nombre_de_B2B(joueur_id)
+    df_back_to_back = obtenir_df_back_to_back(ids_joueurs, date_du_jour)
 
-    else:
-        delta_B2B = ''
-        nombre_de_B2B = ''
+    print(df_back_to_back)
 
-    return joueur_nom, delta_B2B, nombre_de_B2B
+    for joueur_id, row in zip(ids_joueurs, df_back_to_back.iterrows()):
+        joueur_nom = obtenir_joueurNom_avec_joueurID(joueur_id)
+        if row[1]['B2B'] == 'O':
+            delta_B2B = obtenir_delta_B2B(joueur_id)
+            nombre_de_B2B = obtenir_nombre_de_B2B(joueur_id)
+        else:
+            delta_B2B = ''
+            nombre_de_B2B = ''
+
+        # Utiliser la fonction pd.concat pour ajouter une nouvelle ligne au DataFrame
+        df_impact_B2B.loc[len(df_impact_B2B)] = [joueur_nom, delta_B2B, nombre_de_B2B]
+    
+    # Enlever les joueurs pour les besoins du TI global
+    df_impact_B2B = df_impact_B2B.drop(columns=['Joueur'])
+
+    return df_impact_B2B
 
 # N'exécuter que si appelé ici directement
 if __name__ == "__main__":
 
     # Liste de joueurs
-    ids_joueurs = [2544, 201935, 202695, 202331, 1630567, 1628398]
+    ids_joueurs = [2544, 201935, 202695, 202331, 1630567, 1628398, 203076, 1628983, 1627742, 1628368, 1626164]
+    date_du_jour = '09/02/2024'
 
-    date_du_jour = '10/02/2024'
-    # Conversion de la date du jour
-    date_du_jour = datetime.strptime(date_du_jour, '%d/%m/%Y') # Convertir la chaîne en objet datetime
-    date_du_jour = date_du_jour.strftime("%b %d, %Y") # Formater la date
-
-    # Créer le DataFrame final avec les colonnes nécessaires
-    df_impact_B2B = pd.DataFrame(columns=['Joueur', 'delta_B2B', 'nombre_de_B2B'])
-
-    for joueur_id in ids_joueurs:
-
-        # Utiliser la fonction pd.concat pour ajouter une nouvelle ligne au DataFrame
-        df_impact_B2B.loc[len(df_impact_B2B)] = obtenir_resultats_impact_B2B(joueur_id, date_du_jour)
-
-    # Enlever les joueurs
-    # df_impact_B2B = df_impact_B2B.drop(columns=['Joueur'])
+    df_impact_B2B = obtenir_resultats_impact_B2B(ids_joueurs, date_du_jour)
 
     print(df_impact_B2B)

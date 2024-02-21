@@ -138,6 +138,9 @@ def obtenir_DF_joueurs_status(ids_joueurs):
     # Réorganisez les colonnes pour avoir 'Joueur' en premier
     DF_joueurs_status = DF_joueurs_status[['Joueur', 'Statut']]
 
+    # Enlever les joueurs pour les besoins du TI global
+    DF_joueurs_status = DF_joueurs_status.drop(columns=['Joueur'])
+
     return DF_joueurs_status
 
 def obtenir_nom_joueur_avec_id(id_joueur):
@@ -151,8 +154,5 @@ if __name__ == "__main__":
     ids_joueurs = [1628384, 203076, 1628983, 1627742, 1628368, 1626164, 1627759, 203944, 1630163, 1628374, 1631094, 202331, 1630567, 1630169, 1629627, 203078, 1641706, 1630595, 1630166, 1628978, 1630596, 1630532, 1631105, 1627750, 201935, 1628386, 1628398, 1629008, 1629628, 201566, 202699, 1630178, 1641705, 203952, 1630559, 1626156, 1627832, 202330]
 
     DF_joueurs_status = obtenir_DF_joueurs_status(ids_joueurs)
-
-    # Enlever les joueurs
-    # DF_joueurs_status = DF_joueurs_status.drop(columns=['Joueur'])
 
     print(DF_joueurs_status)
