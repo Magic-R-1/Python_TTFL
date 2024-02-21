@@ -1,8 +1,6 @@
 import pandas as pd
-
 from z_DataFrames_globaux import *
-
-from z_Utilitaires import obtenir_joueurNom_avec_joueurID, obtenir_equipeABV_avec_joueurID
+from z_Utilitaires import *
 
 # Fonction pour charger les caches des feuilles de matchs et des postes des joueurs
 def charger_cache():

@@ -1,7 +1,6 @@
 import pandas as pd
-# from nba_api.stats.endpoints import player-gamelog, player-nextngames
-from z_Utilitaires import obtenir_equipeID_avec_joueurID, obtenir_equipeABV_avec_equipeID, calcul_score_TTFL, obtenir_joueurNom_avec_joueurID
-from z_DataFrames_globaux import obtenir_prochains_matchs_DF_globaux, obtenir_game_log_DF_globaux
+from z_Utilitaires import *
+from z_DataFrames_globaux import *
 
 def obtenir_adversaire_prochain_match(joueur_id):
     id_equipe_joueur = obtenir_equipeID_avec_joueurID(joueur_id)
