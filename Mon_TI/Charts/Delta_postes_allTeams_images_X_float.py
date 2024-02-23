@@ -20,11 +20,11 @@ def poste_ABV_to_poste_full(poste_ABV):
     }
     return mapping.get(poste_ABV, 'Unknown')
 
-def obtenir_df_complet():
+def obtenir_DF_complet():
     # DataFrame initial
-    return obtenir_transposer_df_delta()
+    return obtenir_transposer_DF_delta()
 
-    """ df_data = pd.DataFrame({
+    """ DF_data = pd.DataFrame({
         'Poste': ["MIN", "CLE", "NOP", "NYK", "OKC", "CHI", "LAC", "BOS", "DEN", "PHX", 
         "MEM", "PHI", "ORL", "POR", "HOU", "MIA", "UTA", "TOR", "CHA", "LAL", 
         "WAS", "BKN", "SAC", "DAL", "ATL", "GSW", "MIL", "IND", "DET", "SAS"],
@@ -33,42 +33,42 @@ def obtenir_df_complet():
         1.8, 1.9, 1.9, 2.1]},
         columns = ['Poste', 'G'])
 
-    return df_data """
+    return DF_data """
 
-def formater_df_avec_poste_voulu(poste, df_delta_complet):
+def formater_DF_avec_poste_voulu(poste, DF_delta_complet):
 
     # Sélection des colonnes d'intérêt (Poste et les scores pour chaque équipe)
-    df_delta_poste_unique = df_delta_complet[["Poste", poste]]
+    DF_delta_poste_unique = DF_delta_complet[["Poste", poste]]
 
     # Renommer les colonnes pour correspondre au format souhaité
-    df_delta_poste_unique.columns = ["Team", "Delta"]
+    DF_delta_poste_unique.columns = ["Team", "Delta"]
 
     # Supprimer les lignes inintéressantes
-    df_delta_poste_unique = df_delta_poste_unique.drop(df_delta_poste_unique.index[[0,1,2]])
+    DF_delta_poste_unique = DF_delta_poste_unique.drop(DF_delta_poste_unique.index[[0,1,2]])
 
     # Réinitialiser l'index
-    df_delta_poste_unique.reset_index(drop=True, inplace=True)
+    DF_delta_poste_unique.reset_index(drop=True, inplace=True)
 
     # Return le DataFrame résultant
-    return df_delta_poste_unique
+    return DF_delta_poste_unique
 
-def creation_et_affichage_du_graphique(poste, df_delta_poste_unique):
+def creation_et_affichage_du_graphique(poste, DF_delta_poste_unique):
 
-    # Trier le df
-    df_delta_poste_unique = df_delta_poste_unique.sort_values(by='Delta', ascending=True)
-    df_delta_poste_unique.reset_index(drop=True, inplace=True)
+    # Trier le DF
+    DF_delta_poste_unique = DF_delta_poste_unique.sort_values(by='Delta', ascending=True)
+    DF_delta_poste_unique.reset_index(drop=True, inplace=True)
 
     # Détermination des limites de l'axe des y
-    y_min = min(df_delta_poste_unique["Delta"]) - 0.5  # Valeur minimale avec une marge de 0.5
-    y_max = max(df_delta_poste_unique["Delta"]) + 0.5  # Valeur maximale avec une marge de 0.5
+    y_min = min(DF_delta_poste_unique["Delta"]) - 0.5  # Valeur minimale avec une marge de 0.5
+    y_max = max(DF_delta_poste_unique["Delta"]) + 0.5  # Valeur maximale avec une marge de 0.5
 
     # Création de la colormap de rouge à vert
-    colors = plt.cm.RdYlGn(np.linspace(0, 1, len(df_delta_poste_unique["Delta"])))
+    colors = plt.cm.RdYlGn(np.linspace(0, 1, len(DF_delta_poste_unique["Delta"])))
 
     # Création du graphique en nuage de points avec des couleurs graduées
     plt.figure(figsize=(10, 6))
-    for i in range(len(df_delta_poste_unique.index)):
-        plt.scatter(df_delta_poste_unique.index[i], df_delta_poste_unique["Delta"][i], color=colors[i])
+    for i in range(len(DF_delta_poste_unique.index)):
+        plt.scatter(DF_delta_poste_unique.index[i], DF_delta_poste_unique["Delta"][i], color=colors[i])
 
     # Remettre le nom complet du poste
     poste_complet = poste_ABV_to_poste_full(poste)
@@ -86,8 +86,8 @@ def creation_et_affichage_du_graphique(poste, df_delta_poste_unique):
     plt.yticks(np.arange(y_min, y_max, 0.25))
 
     # Récupération des données
-    teams = df_delta_poste_unique.index  # Utilisation de l'index des équipes
-    deltas = df_delta_poste_unique["Delta"]
+    teams = DF_delta_poste_unique.index  # Utilisation de l'index des équipes
+    deltas = DF_delta_poste_unique["Delta"]
 
     # Mettre des étiquettes de données au dessus de chaque point
     for i, delta in zip(teams, deltas):
@@ -95,7 +95,7 @@ def creation_et_affichage_du_graphique(poste, df_delta_poste_unique):
         x_position = i
         y_position = round(delta + 0.1,2)  # Légèrement au-dessus de la valeur de delta
 
-        team = df_delta_poste_unique["Team"][i]
+        team = DF_delta_poste_unique["Team"][i]
 
         # Ajout du texte
         # plt.text(x_position, y_position, team, ha='center', va='bottom')
@@ -104,7 +104,7 @@ def creation_et_affichage_du_graphique(poste, df_delta_poste_unique):
         ajout_image(y_min, y_max, team, x_position, y_position)
 
     # Définir les limites de l'axe x et y manuellement
-    plt.xlim(-1, len(df_delta_poste_unique))  # Ajuster les limites de l'axe x selon le nombre d'équipes
+    plt.xlim(-1, len(DF_delta_poste_unique))  # Ajuster les limites de l'axe x selon le nombre d'équipes
     plt.ylim(y_min, y_max)  # Utiliser les limites précédemment déterminées pour l'axe y
 
     # Tracer une ligne rouge au niveau de Y = 0
@@ -134,15 +134,15 @@ def ajout_image(y_min, y_max, team, x_position, y_position):
 
 def affichage_du_graphique_avec_boucle_postes():
     
-    df_delta_complet = obtenir_df_complet()
+    DF_delta_complet = obtenir_DF_complet()
 
     # liste_de_postes = ['G', 'G-F', 'F-G', 'F', 'F-C', 'C-F', 'C']
 
     liste_de_postes = ['G']
 
     for poste in liste_de_postes:
-        df_delta_poste_unique = formater_df_avec_poste_voulu(poste, df_delta_complet)
-        creation_et_affichage_du_graphique(poste, df_delta_poste_unique)
+        DF_delta_poste_unique = formater_DF_avec_poste_voulu(poste, DF_delta_complet)
+        creation_et_affichage_du_graphique(poste, DF_delta_poste_unique)
 
 affichage_du_graphique_avec_boucle_postes()
 

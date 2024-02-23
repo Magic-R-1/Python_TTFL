@@ -1,34 +1,40 @@
 import pandas as pd
-from datetime import datetime
 import time
 import sys
 
-from a_Equipes_Noms import generer_df_equipe_nom
-from b_Postes import generer_df_postes
-from c_Blessures import obtenir_DF_joueurs_status
-from d_Back_to_back import obtenir_df_back_to_back
-from e_Moyennes import generer_df_moyennes
-from f_Nombre_matchs_joues_X_derniers_jours import get_games_played_last_X_days
-from g_Intervalles_X_derniers_jours import generer_intervalles_last_X_days
-from h1_Scores_X_derniers_matchs_NaN import construire_tableau_X_derniers_matchs_with_NaN
-from j_X_historique_vs_adversaire import obtenir_X_historique_vs_adversaire
-from l_Impact_Domicile_Exterieur import obtenir_delta_globale_domicile_ou_exterieur
-from m_Impact_back_to_back import obtenir_resultats_impact_B2B
-from n_Adversaires_X_prochains_matchs import obtenir_prochains_matchs_joueurs
-from z_Utilitaires import exporter_vers_Excel_mon_TI
+from a_Equipes_Noms import obtenir_DF_equipes_noms
+from c_Postes import obtenir_DF_postes
+from b_Blessures import obtenir_DF_joueurs_status
+from d_Back_to_back import obtenir_DF_back_to_back
+from e_Moyennes import obtenir_DF_moyennes
+from f_Nombre_matchs_joues_X_derniers_jours import obtenir_DF_nb_matchs_joues_derniers_X_jours
+from g_Intervalles_X_derniers_jours import obtenir_DF_intervalles_derniers_X_jours
+from h1_Scores_X_derniers_matchs_NaN import obtenir_DF_X_derniers_matchs_avec_NaN
+from k_historique_vs_adversaire import obtenir_DF_historiques_vs_adversaires
+from l_Impact_Domicile_Exterieur import obtenir_DF_impact_domicile_ou_exterieurs
+from m_Impact_back_to_back import obtenir_DF_impact_B2B
+from i_Adversaires_X_prochains_matchs import obtenir_DF_X_prochains_matchs
+from x_Utilitaires import *
 
+# ------------------------------
+# Fonction pour afficher la progression dans la construction des tableaux
+def afficher_progression(index):
+    nombre_DF = 13
+    progression = int(round(index/nombre_DF * 100,0))
+    message = f'\rTableau {index}/{nombre_DF} ({progression}%)'
+
+    sys.stdout.write(message)  # Effacer la ligne précédente
+    sys.stdout.flush()
+
+    if index==nombre_DF: print()
+
+# ------------------------------
+# Fonction principale, pour construire les tableaux et les assembler en un TI
 def obtenir_mon_TI(ids_joueurs, date_du_jour):
-
-    # Conversion de la date du jour
-    date_du_jour = datetime.strptime(date_du_jour, '%d/%m/%Y') # Convertir la chaîne en objet datetime
-    date_du_jour = date_du_jour.strftime("%b %d, %Y") # Formater la date
-
-    # Nombre de joueurs dans ma liste
-    total_joueurs = len(ids_joueurs)
 
     # Variables générales
     nb_derniers_matchs = 5 # Nombre de matchs joués en derniers (score)
-    number_of_days_matchs_joues = 30 # Nombre de matchs joués et Intervalles
+    nb_jours_matchs_joues = 30 # Nombre de matchs joués et Intervalles
     nombre_de_matchs_vs_adversaire = 3 # Nombre de matchs joués contre l'adversaire du jour (score)
 
     # Intervalles
@@ -36,173 +42,122 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
     limite_2 = 30
     limite_3 = 40
 
-    # Création des DataFrames
-    df_equipes_noms = pd.DataFrame(columns=['Equipe', 'Joueur']) # Équipe, joueur
-    df_postes = pd.DataFrame(columns=['Joueur', 'Poste']) # Postes
-    df_back_to_back = pd.DataFrame(columns=['Joueur', 'B2B']) # B2B
-    df_moyennes = pd.DataFrame(columns=['Joueur', '5M', '15M', 'Saison']) # Moyennes
-    df_matchs_joues_X_derniers_jours = pd.DataFrame(columns=['Joueur', 'GP']) # Nombre de matchs joués
-    df_intervalles = pd.DataFrame(columns=['Joueur', f'<{limite_1}', f'{limite_1}-{limite_2-1}', f'{limite_2}-{limite_3-1}', f'{limite_3}+']) # Intervalles
-    df_X_derniers_matchs = pd.DataFrame() # Derniers matchs
-    df_adversaire_du_soir = pd.DataFrame() # Adversaire du soir
-    df_historique_vs_adversaire = pd.DataFrame() # Historique contre adversaire du soir
-    df_X_prochains_matchs = pd.DataFrame() # Prochains matchs
-    df_impact_domicile_ou_exterieurs = pd.DataFrame(columns=['Joueur', 'vs or @','Delta']) # Impact domicile ou exterieur
-    df_impact_B2B = pd.DataFrame(columns=['Joueur', 'delta_B2B', 'nombre_de_B2B']) # Impact B2B
+    # ---------------------------------------------------------------------------------------
+    # Équipes, Noms
+    DF_equipes_noms = obtenir_DF_equipes_noms(ids_joueurs)
+    afficher_progression(1)
+    # ---------------------------------------------------------------------------------------
 
-    # Début de la boucle
-    for joueur_index, joueur_id in enumerate(ids_joueurs, start=1):
+    # ---------------------------------------------------------------------------------------
+    # Statut de blessure
+    DF_joueurs_status = obtenir_DF_joueurs_status(ids_joueurs)
+    afficher_progression(2)
+    # ---------------------------------------------------------------------------------------
 
-        # Affichage de la progression dans la console
-        joueur_progression = int(round((joueur_index/total_joueurs)*100,0))
-        message = f'\rJoueur {joueur_index}/{total_joueurs}, {joueur_progression}%'
-        # sys.stdout.write(message + ' ' * (len(message) - 1))  # Effacer la ligne précédente
-        sys.stdout.write(message)  # Effacer la ligne précédente
-        sys.stdout.flush()
+    # ---------------------------------------------------------------------------------------
+    # Postes
+    DF_postes = obtenir_DF_postes(ids_joueurs)
+    afficher_progression(3)
+    # ---------------------------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------------------------
-        # Faire quelque chose uniquement la première fois
-        if joueur_index == 1:
+    # ---------------------------------------------------------------------------------------
+    # B2B
+    DF_back_to_back = obtenir_DF_back_to_back(ids_joueurs, date_du_jour)
+    afficher_progression(4)
+    # ---------------------------------------------------------------------------------------
 
-            # ---------------------------------------------------------------------------------------
-            # Équipes, Noms
-            df_equipes_noms = generer_df_equipe_nom(ids_joueurs)
-            # ---------------------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------------------
+    # Impact B2B
+    DF_impact_B2B = obtenir_DF_impact_B2B(ids_joueurs, date_du_jour)
+    afficher_progression(5)
+    # ---------------------------------------------------------------------------------------
 
-            # ---------------------------------------------------------------------------------------
-            # Statut de blessure
-            DF_joueurs_status = obtenir_DF_joueurs_status(ids_joueurs)
-            # ---------------------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------------------
+    # Moyennes
+    DF_moyennes = obtenir_DF_moyennes(ids_joueurs)
+    afficher_progression(6)
+    # ---------------------------------------------------------------------------------------
 
-            # ---------------------------------------------------------------------------------------
-            # Postes
-            df_postes = generer_df_postes(ids_joueurs)
-            # ---------------------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------------------
+    # Derniers matchs_avec_NaN
+    DF_X_derniers_matchs_avec_NaN = obtenir_DF_X_derniers_matchs_avec_NaN(ids_joueurs, nb_derniers_matchs)
+    afficher_progression(7)
+    # ---------------------------------------------------------------------------------------
 
-            # ---------------------------------------------------------------------------------------
-            # B2B
-            df_back_to_back = obtenir_df_back_to_back(ids_joueurs, date_du_jour)
-            # ---------------------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------------------
+    # Intervalles
+    DF_intervalles = obtenir_DF_intervalles_derniers_X_jours(ids_joueurs, nb_jours_matchs_joues, limite_1, limite_2, limite_3)
+    afficher_progression(8)
+    # ---------------------------------------------------------------------------------------
 
-            # ---------------------------------------------------------------------------------------
-            # Impact B2B
-            df_impact_B2B = obtenir_resultats_impact_B2B(ids_joueurs, date_du_jour)
-            # ---------------------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------------------
+    # Nombre de matchs joués
+    DF_matchs_joues_X_derniers_jours = obtenir_DF_nb_matchs_joues_derniers_X_jours(ids_joueurs, nb_jours_matchs_joues)
+    afficher_progression(9)
+    # ---------------------------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------------------------
-        # Moyennes
-        df_moyennes.loc[len(df_moyennes)] = generer_df_moyennes(joueur_id)
-        # ---------------------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------------------
+    # Historique contre adversaire du soir
+    DF_historiques_vs_adversaires = obtenir_DF_historiques_vs_adversaires(ids_joueurs, nombre_de_matchs_vs_adversaire, date_du_jour)
+    afficher_progression(10)
+    # ---------------------------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------------------------
-        # Nombre de matchs joués
-        df_matchs_joues_X_derniers_jours.loc[len(df_matchs_joues_X_derniers_jours)] = get_games_played_last_X_days(joueur_id,number_of_days_matchs_joues)
-        # ---------------------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------------------
+    # Adversaire du soir
+    nb_matchs_a_sauter = 0 # variables pour afficher les prochains adversaire, moins le prochain (qui sera affiché ailleurs) dans le cas de variable = 1
+    nb_prochains_matchs = 1
+    DF_adversaire_du_soir = obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour)
+    afficher_progression(11)
+    # ---------------------------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------------------------
-        # Intervalles
-        df_intervalles.loc[len(df_intervalles)] = generer_intervalles_last_X_days(joueur_id,limite_1,limite_2,limite_3,number_of_days_matchs_joues)
-        # ---------------------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------------------
+    # Prochains matchs
+    nb_matchs_a_sauter = 1 # variables pour afficher les prochains adversaire, moins le prochain (qui sera affiché ailleurs) dans le cas de variable = 1
+    nb_prochains_matchs = 4
+    DF_X_prochains_matchs = obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour)
+    afficher_progression(12)
+    # ---------------------------------------------------------------------------------------
 
-        # ---------------------------------------------------------------------------------------
-        # Derniers matchs
-        tableau_X_derniers_matchs = construire_tableau_X_derniers_matchs_with_NaN(joueur_id, nb_derniers_matchs)
-        df_X_derniers_matchs = pd.concat([df_X_derniers_matchs, tableau_X_derniers_matchs], ignore_index=True)
-        # ---------------------------------------------------------------------------------------
-
-        # ---------------------------------------------------------------------------------------
-        # Adversaire du soir
-        nb_matchs_a_sauter = 0 # variables pour afficher les prochains adversaire, moins le prochain (qui sera affiché ailleurs) dans le cas de variable = 1
-        nb_prochains_matchs = 1
-        df_adversaire_du_soir = pd.concat([df_adversaire_du_soir, obtenir_prochains_matchs_joueurs(joueur_id, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour)], ignore_index=True)
-        # ---------------------------------------------------------------------------------------
-
-        # ---------------------------------------------------------------------------------------
-        # Historique contre adversaire du soir
-        df_historique_vs_adversaire = pd.concat([df_historique_vs_adversaire, obtenir_X_historique_vs_adversaire(joueur_id, nombre_de_matchs_vs_adversaire)], ignore_index=True)
-        # ---------------------------------------------------------------------------------------
-
-        # ---------------------------------------------------------------------------------------
-        # Prochains matchs
-        nb_matchs_a_sauter = 1 # variables pour afficher les prochains adversaire, moins le prochain (qui sera affiché ailleurs) dans le cas de variable = 1
-        nb_prochains_matchs = 4
-        df_X_prochains_matchs = pd.concat([df_X_prochains_matchs, obtenir_prochains_matchs_joueurs(joueur_id, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour)], ignore_index=True)
-        # ---------------------------------------------------------------------------------------
-
-        # ---------------------------------------------------------------------------------------
-        # Impact domicile ou exterieur
-        df_impact_domicile_ou_exterieurs.loc[len(df_impact_domicile_ou_exterieurs)] = obtenir_delta_globale_domicile_ou_exterieur(joueur_id)
-        # ---------------------------------------------------------------------------------------
-
-    # Enlever les joueurs
-    # df_postes = df_postes.drop(columns=['Joueur']) # Postes
-    DF_joueurs_status = DF_joueurs_status.drop(columns=['Joueur']) # Statut de blessure
-    # df_back_to_back = df_back_to_back.drop(columns=['Joueur']) # B2B
-    df_moyennes = df_moyennes.drop(columns=['Joueur']) # Moyennes
-    df_matchs_joues_X_derniers_jours = df_matchs_joues_X_derniers_jours.drop(columns=['Joueur']) # Nombre de matchs joués
-    df_intervalles = df_intervalles.drop(columns=['Joueur']) # Intervalles
-    df_X_derniers_matchs = df_X_derniers_matchs.drop(columns=['Joueur']) # Derniers matchs
-    df_adversaire_du_soir = df_adversaire_du_soir.drop(columns=['Joueur']) # Adversaire du soir
-    df_historique_vs_adversaire = df_historique_vs_adversaire.drop(columns=['Joueur']) # Historique contre adversaire du soir
-    df_X_prochains_matchs = df_X_prochains_matchs.drop(columns=['Joueur']) # Prochains matchs
-    df_impact_domicile_ou_exterieurs = df_impact_domicile_ou_exterieurs.drop(columns=['Joueur']) # Impact domicile ou exterieur
-    # df_impact_B2B = df_impact_B2B.drop(columns=['Joueur']) # Impact B2B
-
-    # Gestion des 0
-    # Derniers matchs
-    df_X_derniers_matchs = df_X_derniers_matchs.fillna(0) # Trasnformer les NaN en 0
-    df_X_derniers_matchs = df_X_derniers_matchs.round(0).astype(int) # Convertir les valeurs en integer pour ne plus avoir de décimales
-    df_X_derniers_matchs = df_X_derniers_matchs.replace(0,"-") # Remplacer les 0 par des tirets pour la lisibilité
+    # ---------------------------------------------------------------------------------------
+    # Impact domicile ou exterieur
+    DF_impact_domicile_ou_exterieurs = obtenir_DF_impact_domicile_ou_exterieurs(ids_joueurs)
+    afficher_progression(13)
+    # ---------------------------------------------------------------------------------------
 
     # Concaténation des tableaux
     mon_TI = pd.DataFrame()
-    mon_TI = pd.concat([mon_TI, df_equipes_noms], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_equipes_noms], axis=1)
     mon_TI = pd.concat([mon_TI, DF_joueurs_status], axis=1)
-    mon_TI = pd.concat([mon_TI, df_postes], axis=1)
-    mon_TI = pd.concat([mon_TI, df_back_to_back], axis=1)
-    mon_TI = pd.concat([mon_TI, df_moyennes], axis=1)
-    mon_TI = pd.concat([mon_TI, df_matchs_joues_X_derniers_jours], axis=1)
-    mon_TI = pd.concat([mon_TI, df_intervalles], axis=1)
-    mon_TI = pd.concat([mon_TI, df_X_derniers_matchs], axis=1)
-    mon_TI = pd.concat([mon_TI, df_adversaire_du_soir], axis=1)
-    mon_TI = pd.concat([mon_TI, df_historique_vs_adversaire], axis=1)
-    mon_TI = pd.concat([mon_TI, df_X_prochains_matchs], axis=1)
-    mon_TI = pd.concat([mon_TI, df_impact_domicile_ou_exterieurs], axis=1)
-    mon_TI = pd.concat([mon_TI, df_impact_B2B], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_postes], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_back_to_back], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_moyennes], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_matchs_joues_X_derniers_jours], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_intervalles], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_X_derniers_matchs_avec_NaN], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_adversaire_du_soir], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_historiques_vs_adversaires], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_X_prochains_matchs], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_impact_domicile_ou_exterieurs], axis=1)
+    mon_TI = pd.concat([mon_TI, DF_impact_B2B], axis=1)
 
-    # Tri du tableau par ordre décroissant de la colonne 5 matchs
-    mon_TI = mon_TI.sort_values(by='5M', ascending=False)
-
-    # Exporter le TI vers Excel
-    print()
-    exporter_vers_Excel_mon_TI(mon_TI, date_du_jour)
+    # Tri du tableau par ordre décroissant de la colonne 15 matchs
+    mon_TI = mon_TI.sort_values(by='15M', ascending=False)
 
     return mon_TI
 
+# ------------------------------
 # Point d'entrée du programme
 if __name__ == "__main__":
 
-    # Liste d'identifiants de joueurs
-    ids_joueurs = [203076, 1628983]
-    # ids_joueurs = [203076, 1628983, 1627742, 1628368, 1626164, 1627759, 203944, 1630163, 1628374, 1631094, 202331, 1630567, 1630169, 1629627, 203078, 1641706, 1630595, 1630166, 1628978, 1630596, 1630532, 1631105, 1627750, 201935, 1628386, 1628398, 1629008, 1629628, 201566, 202699, 1630178, 1641705, 203952, 1630559, 1626156, 1627832, 202330]
-    date_du_jour = '22/02/2024'
+    # Variables
+    # ids_joueurs = [203076, 1630162, 1628389, 1627742, 203081, 1626164, 202710]
+    ids_joueurs = [203076, 1630162, 1628389, 1627742, 203081, 1626164, 202710, 1630163, 202331, 203497, 1630567, 1629627, 203078, 1641706, 1627749, 1630166, 1630596, 1627750, 201935, 1628991, 1628386, 203114, 1628398, 1629008, 1629628, 201566, 202699, 1630178, 1641705, 203952, 1630559, 1626156, 1627832, 202330, 203924, 1629639]
+    date_du_jour = '23/02/2024'
 
     temps_debut = time.time()  # Enregistrer le temps de début d'exécution
 
-    obtenir_mon_TI(ids_joueurs, date_du_jour)
+    mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)
 
-    temps_fin = time.time()  # Enregistrer le temps de fin d'exécution
-    duree_execution = temps_fin - temps_debut  # Calculer la durée d'exécution
-    minutes = int(duree_execution // 60)  # Convertir la durée en minutes
-    secondes = int(duree_execution % 60)  # Calculer les secondes restantes
+    exporter_vers_Excel_mon_TI(mon_TI, date_du_jour)    # Exporter le TI vers Excel
 
-    pluriel_minutes = "s" if minutes > 1 else ""
-    pluriel_secondes = "s" if secondes > 1 else ""
-
-    if minutes != 0:
-        if secondes != 0:
-            print(f"Le code a pris {minutes} minute{pluriel_minutes} et {secondes} seconde{pluriel_secondes} pour s'exécuter.")
-        else:
-            print(f"Le code a pris {minutes} minute{pluriel_minutes} pour s'exécuter.")
-    elif secondes != 0:
-        print(f"Le code a pris {secondes} seconde{pluriel_secondes} pour s'exécuter.")
+    print_message_de_confirmation(temps_debut)

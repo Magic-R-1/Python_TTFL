@@ -14,5 +14,5 @@ def hello_world():
 @app.route("/TI")
 
 def TI():
-    df_impact_poste = obtenir_transposer_df_delta()
-    return df_impact_poste.to_html()
+    DF_impact_poste = obtenir_transposer_DF_delta()
+    return DF_impact_poste.to_html()
