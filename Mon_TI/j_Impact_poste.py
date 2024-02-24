@@ -7,18 +7,6 @@ from x_Utilitaires import *
 from x_DataFrames_globaux import *
 
 # ------------------------------
-# Fonction pour charger le cache
-def charger_cache() :
-    charger_cache_BoxScoreTraditionalV2()
-    charger_cache_CommonPlayerInfo()
-
-# ------------------------------
-# Fonction pour sauvegarder le cache
-def sauvegarder_cache():
-    sauvegarder_cache_BoxScoreTraditionalV2()
-    sauvegarder_cache_CommonPlayerInfo()
-
-# ------------------------------
 # Fonction pour obtenir la liste des identifiants des équipes à partir des données globales
 def obtenir_liste_equipes_IDs():
     return obtenir_liste_equipes_IDs_DF_globaux()
@@ -94,12 +82,21 @@ def afficher_message_de_progression(match_index, liste_matchs_IDs, liste_equipes
     total_equipes = len(liste_equipes_IDs)  # Calculer le nombre total d'équipes
     total_matchs = len(liste_matchs_IDs)    # Calculer le nombre total de matchs pour l'équipe
 
-    match_progression = int(round(match_index / total_matchs * 100,0))  # Pourcentage de progression du match
-
+    match_progression = int(round(match_index / total_matchs * 100, 0))  # Pourcentage de progression du match
     equipe_index = liste_equipes_IDs.index(equipe_id) + 1
-    equipe_progression = int(round((equipe_index / total_equipes) * 100,0)) # Pourcentage de progression de l'équipe
+    equipe_progression = int(round((equipe_index / total_equipes) * 100, 0)) # Pourcentage de progression de l'équipe
 
-    match_message = f"\rÉquipe {equipe_ABV} {equipe_index}/{total_equipes} ({equipe_progression:.0f}%) - Match {match_index} sur {total_matchs} ({match_progression:.0f}%)"
+    # Barre de progression pour les matchs
+    bar_length_match = 30
+    bar_fill_match = '#' * int(bar_length_match * match_index / total_matchs)
+    bar_empty_match = ' ' * (bar_length_match - len(bar_fill_match))
+
+    # Barre de progression pour les équipes
+    bar_length_equipe = 20
+    bar_fill_equipe = '#' * int(bar_length_equipe * equipe_index / total_equipes)
+    bar_empty_equipe = ' ' * (bar_length_equipe - len(bar_fill_equipe))
+
+    match_message = f"\rÉquipe {equipe_ABV} [{bar_fill_equipe}{bar_empty_equipe}] {equipe_index}/{total_equipes} ({equipe_progression}%) - Match {match_index}/{total_matchs} [{bar_fill_match}{bar_empty_match}] ({match_progression}%)"
     
     sys.stdout.write(match_message)
     sys.stdout.flush()
@@ -138,18 +135,6 @@ def obtenir_DF_delta_par_poste_transposed():
     DF_delta_par_poste_transposed.reset_index(drop=True, inplace=True)
 
     return DF_delta_par_poste_transposed
-
-# ------------------------------
-# Fonction pour exporter vers Excel
-def Excel_export_DF_transposed():
-
-    charger_cache()
-
-    DF_delta_par_poste_transposed = obtenir_DF_delta_par_poste_transposed()
-    print() # Print vide pour clean la progression
-    exporter_vers_Excel_impact_poste(DF_delta_par_poste_transposed) # Exporter vers Excel
-
-    sauvegarder_cache()
 
 # ------------------------------
 # Fonction principale pour obtenir les moyennes pondérées TTFL par poste pour chaque équipe, plus le global
@@ -250,8 +235,9 @@ def obtenir_rajouter_Min_Max_PosteGlobal_DF_delta_par_poste():
 # Point d'entrée du programme
 if __name__ == "__main__":
 
-    temps_debut = time.time()  # Enregistrer le temps de début d'exécution
-
-    Excel_export_DF_transposed()
-
-    print_message_de_confirmation(temps_debut)
+    temps_debut = time.time()                                               # Enregistrer le temps de début d'exécution
+    charger_cache()                                                         # Charger le cache
+    DF_delta_par_poste_transposed = obtenir_DF_delta_par_poste_transposed() # Obtenir le DF transposé contenant les delta
+    exporter_vers_Excel_impact_poste(DF_delta_par_poste_transposed)         # Exporter vers Excel
+    sauvegarder_cache()                                                     # Sauvegarder le cache
+    print_message_de_confirmation(temps_debut)                              # Afficher le message de confirmation

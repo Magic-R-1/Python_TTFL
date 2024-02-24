@@ -27,15 +27,30 @@ def calcul_score_TTFL(row):
 
     return score_TTFL
 
-# Fonction pour obtenir l'ID d'un joueur avec son nom
 # --------------------------------------------------------------------------------------------
+# Fonction pour obtenir l'ID d'un joueur avec son nom
 def obtenir_joueurID_avec_joueurNom(joueur_nom):
     player_dict = players.get_players()
-    print(f"Appel à l'API players")
+    # print(f"Appel à l'API players")
     player =[player for player in player_dict if player['full_name']==joueur_nom][0]
     return player['id']
 
-
+# --------------------------------------------------------------------------------------------
+# Fonction pour obtenir la liste des IDs de tous les joueurs de la NBA
+def obtenir_liste_joueurs_NBA():
+    # Obtenir la liste des joueurs
+    liste_joueurs = players.get_players()
+    
+    # Créer une liste pour stocker les joueurs avec leurs informations
+    liste_joueursIDs = []
+    
+    # Ajouter les informations de chaque joueur à la liste
+    for joueur in liste_joueurs:
+        # Vérifier si le statut du joueur est actif
+        if joueur['is_active']:
+            liste_joueursIDs.append(joueur['id'])
+    
+    return liste_joueursIDs
 
 # #######################################################
 # Obtentions avec joueur_ID
@@ -106,9 +121,9 @@ def obtenir_un_coequipier_dans_equipe_avec_joueurID(joueur_id):
 
     # Vérifier si l'ID de l'équipe est valide
     if equipe_id is not None:
-        # Appeler l'endpoint commonteamroster pour obtenir la liste des joueurs dans l'équipe
+        # Obtenir la liste des joueurs dans l'équipe
         roster = commonteamroster.CommonTeamRoster(team_id=equipe_id)
-        print(f"Appel à l'API CommonTeamRoster")
+        # print(f"Appel à l'API CommonTeamRoster")
         roster_data = roster.get_normalized_dict()
 
         # Extraire les identifiants des joueurs de l'équipe
@@ -225,6 +240,7 @@ def exporter_vers_Excel_generique(DF, file_name):
 
     # Exporter le fichier
     DF.to_excel(excel_writer=chemin_nom_excel, index=False)
+    print()
     print('Fichier Excel enregistré : ',nom_fichier_excel)
 
 # --------------------------------------------------------------------------------------------
@@ -246,11 +262,11 @@ def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour):
 
     # Exporter le fichier
     mon_TI.to_excel(excel_writer=chemin_nom_excel, index=False)
+    print()
     print('Fichier Excel enregistré : ',nom_fichier_excel)
 
 # --------------------------------------------------------------------------------------------
 def exporter_vers_Excel_impact_poste(DF_impact_poste, suffixe=None):
-
 
     # Spécifiez le chemin du dossier
     chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel\Impact_poste'
@@ -269,7 +285,20 @@ def exporter_vers_Excel_impact_poste(DF_impact_poste, suffixe=None):
 
     # Exporter le fichier
     DF_impact_poste.to_excel(excel_writer=chemin_nom_excel, index=False)
+    print()
     print('Fichier Excel enregistré : ',nom_fichier_excel)
+
+# ------------------------------
+# Fonction pour charger le cache
+def charger_cache() :
+    charger_cache_BoxScoreTraditionalV2()
+    charger_cache_CommonPlayerInfo()
+
+# ------------------------------
+# Fonction pour sauvegarder le cache
+def sauvegarder_cache():
+    sauvegarder_cache_BoxScoreTraditionalV2()
+    sauvegarder_cache_CommonPlayerInfo()
 
 # --------------------------------------------------------------------------------------------
 def print_message_de_confirmation(temps_debut):

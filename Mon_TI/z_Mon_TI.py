@@ -20,13 +20,14 @@ from x_Utilitaires import *
 # Fonction pour afficher la progression dans la construction des tableaux
 def afficher_progression(index):
     nombre_DF = 13
-    progression = int(round(index/nombre_DF * 100,0))
-    message = f'\rTableau {index}/{nombre_DF} en cours ({progression}%)'
+    progression = int(round(index/nombre_DF * 100, 0))
+    bar_length = 50
+    bar_fill = '#' * int(bar_length * progression / 100)
+    bar_empty = ' ' * (bar_length - len(bar_fill))
+    message = f'\rTableau {index}/{nombre_DF} en cours [{bar_fill}{bar_empty}] {progression}%'
 
     sys.stdout.write(message)  # Effacer la ligne précédente
     sys.stdout.flush()
-
-    if index==nombre_DF: print()
 
 # ------------------------------
 # Fonction principale, pour construire les tableaux et les assembler en un TI
@@ -165,14 +166,14 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
 # Point d'entrée du programme
 if __name__ == "__main__":
 
+    temps_debut = time.time()   # Enregistrer le temps de début d'exécution
+    charger_cache()             # Charger le cache
+
     # Variables
     ids_joueurs = [1627759, 203944, 1631094, 203497, 1630595, 1628978, 1630532, 1631105]
     date_du_jour = '24/02/2024'
 
-    temps_debut = time.time()  # Enregistrer le temps de début d'exécution
-
-    mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)
-
+    mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)  # Obtenir le TI
     exporter_vers_Excel_mon_TI(mon_TI, date_du_jour)    # Exporter le TI vers Excel
-
-    print_message_de_confirmation(temps_debut)
+    sauvegarder_cache()                                 # Sauvegarder le cache
+    print_message_de_confirmation(temps_debut)          # Afficher le message de confirmation

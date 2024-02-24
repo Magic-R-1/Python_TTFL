@@ -17,8 +17,6 @@ def obtenir_array_equipe_nom(joueur_id):
 # ------------------------------
 # Fonction bouclant pour construire le DF final
 def obtenir_DF_equipes_noms(ids_joueurs):
-    
-    charger_cache_CommonPlayerInfo()
 
     # Créer le DataFrame final avec les colonnes nécessaires
     DF_equipes_noms = pd.DataFrame(columns=['Equipe', 'Joueur'])
@@ -27,8 +25,6 @@ def obtenir_DF_equipes_noms(ids_joueurs):
     for joueur_id in ids_joueurs:
         array_equipe_nom = obtenir_array_equipe_nom(joueur_id)          # Obtention de l'array
         DF_equipes_noms.loc[len(DF_equipes_noms)] = array_equipe_nom    # Ajout en dernière ligne du DF
-    
-    sauvegarder_cache_CommonPlayerInfo()
     
     return DF_equipes_noms
 
