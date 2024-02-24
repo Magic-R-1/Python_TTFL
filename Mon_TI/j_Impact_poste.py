@@ -7,10 +7,16 @@ from x_Utilitaires import *
 from x_DataFrames_globaux import *
 
 # ------------------------------
-# Fonction pour charger les caches des feuilles de matchs et des postes des joueurs
-def charger_cache():
-    global cache_match_data                         # Accès aux caches globaux
-    cache_match_data = charger_cache_match_data()  # Charger les caches
+# Fonction pour charger le cache
+def charger_cache() :
+    charger_cache_BoxScoreTraditionalV2()
+    charger_cache_CommonPlayerInfo()
+
+# ------------------------------
+# Fonction pour sauvegarder le cache
+def sauvegarder_cache():
+    sauvegarder_cache_BoxScoreTraditionalV2()
+    sauvegarder_cache_CommonPlayerInfo()
 
 # ------------------------------
 # Fonction pour obtenir la liste des identifiants des équipes à partir des données globales
@@ -27,15 +33,13 @@ def obtenir_liste_matchs_IDs_avec_equipeID(equipe_id):
 # ------------------------------
 # Fonction pour retourner un DF avec le score TTFL, les minutes, le score TTFL pondéré de chaque joueur, à partir du BoxScore initial
 def obtenir_DF_BoxScore_TTFL_avec_matchID(match_id, equipe_id):
-    global cache_match_data  # Accès au cache global des matchs
-    global cache_postes_joueurs  # Accès au cache global des postes des joueurs
 
     # Obtenir les logs du match à partir du cache des matchs
-    DF_BoxScore_initial = remplir_cache_match_data(match_id)
+    DF_BoxScore_initial = obtenir_BoxScoreTraditionalV2_DF_globaux(match_id)
 
     # Filtrer les données pour l'équipe spécifiée
     DF_BoxScore_TTFL = DF_BoxScore_initial.loc[DF_BoxScore_initial['TEAM_ID'] != equipe_id]
-    DF_BoxScore_TTFL = DF_BoxScore_TTFL.loc[DF_BoxScore_initial['MIN'].notnull()]  # Supprimer les lignes avec MIN nul
+    DF_BoxScore_TTFL = DF_BoxScore_TTFL.loc[DF_BoxScore_initial['MIN'].notnull()]   # Supprimer les lignes avec MIN nul
     
     # Ajouter la colonne 'poste' en utilisant les postes abrégés des joueurs
     DF_BoxScore_TTFL['Poste'] = DF_BoxScore_TTFL['PLAYER_ID'].apply(obtenir_joueurPosteAbregee_avec_joueurID)
@@ -87,10 +91,10 @@ def obtenir_DF_BoxScore_scoreTTFLpondere_minutes(match_id, equipe_id):
 # Fonction pour afficher le message de progression
 def afficher_message_de_progression(match_index, liste_matchs_IDs, liste_equipes_IDs, equipe_id, equipe_ABV):
     
-    total_equipes = len(liste_equipes_IDs)                                  # Calculer le nombre total d'équipes
-    total_matchs = len(liste_matchs_IDs) # Calculer le nombre total de matchs pour l'équipe
+    total_equipes = len(liste_equipes_IDs)  # Calculer le nombre total d'équipes
+    total_matchs = len(liste_matchs_IDs)    # Calculer le nombre total de matchs pour l'équipe
 
-    match_progression = int(round(match_index / total_matchs * 100,0))      # Pourcentage de progression du match
+    match_progression = int(round(match_index / total_matchs * 100,0))  # Pourcentage de progression du match
 
     equipe_index = liste_equipes_IDs.index(equipe_id) + 1
     equipe_progression = int(round((equipe_index / total_equipes) * 100,0)) # Pourcentage de progression de l'équipe
@@ -138,15 +142,18 @@ def obtenir_DF_delta_par_poste_transposed():
 # ------------------------------
 # Fonction pour exporter vers Excel
 def Excel_export_DF_transposed():
+
+    charger_cache()
+
     DF_delta_par_poste_transposed = obtenir_DF_delta_par_poste_transposed()
     print() # Print vide pour clean la progression
     exporter_vers_Excel_impact_poste(DF_delta_par_poste_transposed) # Exporter vers Excel
 
+    sauvegarder_cache()
+
 # ------------------------------
 # Fonction principale pour obtenir les moyennes pondérées TTFL par poste pour chaque équipe, plus le global
 def obtenir_DF_moyenne_par_poste():
-    
-    charger_cache() # Charger les caches des feuilles de matchs
 
     liste_equipes_IDs = obtenir_liste_equipes_IDs() # Obtenir la liste des identifiants des équipes
     
@@ -158,7 +165,7 @@ def obtenir_DF_moyenne_par_poste():
     for equipe_id in liste_equipes_IDs:
         
         liste_matchs_IDs = obtenir_liste_matchs_IDs_avec_equipeID(equipe_id)    # Obtenir les matchs de l'équipe
-        equipe_ABV = remplir_cache_equipe_abv(equipe_id)                   # Obtenir l'abréviation de l'équipe
+        equipe_ABV = obtenir_equipeABV_avec_equipeID(equipe_id)                 # Obtenir l'abréviation de l'équipe
 
         liste_somme_TTFL_par_poste = []     # Initialisation. Ce sera une liste, contenant elle-même des listes des scores TTFL pondérés par poste pour un match. Chaque match sera une liste dans cette liste
         liste_somme_minutes_par_poste = []  # Initialisation. Ce sera une liste, contenant elle-même des listes des minutes par poste pour un match. Chaque match sera une liste dans cette liste
@@ -196,8 +203,6 @@ def obtenir_DF_moyenne_par_poste():
 
     liste_somme_TTFL_par_poste_globale = liste_somme_TTFL_par_poste_globale.astype(int)         # Convertir les sommes totales TTFL en entiers
     liste_somme_minutes_par_poste_globale = liste_somme_minutes_par_poste_globale.astype(int)   # Convertir les sommes totales MIN en entiers
-
-    sauvegarder_cache_match_data(cache_match_data)  # Sauvegarder le cache des matchs
 
     # Créer un DataFrame à partir du dictionnaire des résultats
     DF_moyenne_par_poste = pd.DataFrame(Dictionnaire_moyenne_par_poste)

@@ -21,7 +21,7 @@ from x_Utilitaires import *
 def afficher_progression(index):
     nombre_DF = 13
     progression = int(round(index/nombre_DF * 100,0))
-    message = f'\rTableau {index}/{nombre_DF} ({progression}%)'
+    message = f'\rTableau {index}/{nombre_DF} en cours ({progression}%)'
 
     sys.stdout.write(message)  # Effacer la ligne précédente
     sys.stdout.flush()
@@ -42,86 +42,102 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
     limite_2 = 30
     limite_3 = 40
 
+    # Progression
+    index = 1
+
     # ---------------------------------------------------------------------------------------
     # Équipes, Noms
+    afficher_progression(index)
+    index += 1
     DF_equipes_noms = obtenir_DF_equipes_noms(ids_joueurs)
-    afficher_progression(1)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
-    # Statut de blessure
+    # Blessure
+    afficher_progression(index)
+    index += 1
     DF_joueurs_status = obtenir_DF_joueurs_status(ids_joueurs)
-    afficher_progression(2)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
     # Postes
+    afficher_progression(index)
+    index += 1
     DF_postes = obtenir_DF_postes(ids_joueurs)
-    afficher_progression(3)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
     # B2B
+    afficher_progression(index)
+    index += 1
     DF_back_to_back = obtenir_DF_back_to_back(ids_joueurs, date_du_jour)
-    afficher_progression(4)
-    # ---------------------------------------------------------------------------------------
-
-    # ---------------------------------------------------------------------------------------
-    # Impact B2B
-    DF_impact_B2B = obtenir_DF_impact_B2B(ids_joueurs, date_du_jour)
-    afficher_progression(5)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
     # Moyennes
+    afficher_progression(index)
+    index += 1
     DF_moyennes = obtenir_DF_moyennes(ids_joueurs)
-    afficher_progression(6)
-    # ---------------------------------------------------------------------------------------
-
-    # ---------------------------------------------------------------------------------------
-    # Derniers matchs_avec_NaN
-    DF_X_derniers_matchs_avec_NaN = obtenir_DF_X_derniers_matchs_avec_NaN(ids_joueurs, nb_derniers_matchs)
-    afficher_progression(7)
-    # ---------------------------------------------------------------------------------------
-
-    # ---------------------------------------------------------------------------------------
-    # Intervalles
-    DF_intervalles = obtenir_DF_intervalles_derniers_X_jours(ids_joueurs, nb_jours_matchs_joues, limite_1, limite_2, limite_3)
-    afficher_progression(8)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
     # Nombre de matchs joués
+    afficher_progression(index)
+    index += 1
     DF_matchs_joues_X_derniers_jours = obtenir_DF_nb_matchs_joues_derniers_X_jours(ids_joueurs, nb_jours_matchs_joues)
-    afficher_progression(9)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
-    # Historique contre adversaire du soir
-    DF_historiques_vs_adversaires = obtenir_DF_historiques_vs_adversaires(ids_joueurs, nombre_de_matchs_vs_adversaire, date_du_jour)
-    afficher_progression(10)
+    # Intervalles
+    afficher_progression(index)
+    index += 1
+    DF_intervalles = obtenir_DF_intervalles_derniers_X_jours(ids_joueurs, nb_jours_matchs_joues, limite_1, limite_2, limite_3)
+    # ---------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------
+    # Derniers matchs_avec_NaN
+    afficher_progression(index)
+    index += 1
+    DF_X_derniers_matchs_avec_NaN = obtenir_DF_X_derniers_matchs_avec_NaN(ids_joueurs, nb_derniers_matchs)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
     # Adversaire du soir
+    afficher_progression(index)
+    index += 1
     nb_matchs_a_sauter = 0 # variables pour afficher les prochains adversaire, moins le prochain (qui sera affiché ailleurs) dans le cas de variable = 1
     nb_prochains_matchs = 1
     DF_adversaire_du_soir = obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour)
-    afficher_progression(11)
+    # ---------------------------------------------------------------------------------------
+
+    # ---------------------------------------------------------------------------------------
+    # Historique contre adversaire du soir
+    afficher_progression(index)
+    index += 1
+    DF_historiques_vs_adversaires = obtenir_DF_historiques_vs_adversaires(ids_joueurs, nombre_de_matchs_vs_adversaire, date_du_jour)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
     # Prochains matchs
+    afficher_progression(index)
+    index += 1
     nb_matchs_a_sauter = 1 # variables pour afficher les prochains adversaire, moins le prochain (qui sera affiché ailleurs) dans le cas de variable = 1
     nb_prochains_matchs = 4
     DF_X_prochains_matchs = obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour)
-    afficher_progression(12)
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
     # Impact domicile ou exterieur
-    DF_impact_domicile_ou_exterieurs = obtenir_DF_impact_domicile_ou_exterieurs(ids_joueurs)
-    afficher_progression(13)
+    afficher_progression(index)
+    index += 1
+    DF_impact_domicile_ou_exterieurs = obtenir_DF_impact_domicile_ou_exterieurs(ids_joueurs, date_du_jour)
+    # ---------------------------------------------------------------------------------------
+
+    # ---------------------------------------------------------------------------------------
+    # Impact B2B
+    afficher_progression(index)
+    index += 1
+    DF_impact_B2B = obtenir_DF_impact_B2B(ids_joueurs, date_du_jour)
     # ---------------------------------------------------------------------------------------
 
     # Concaténation des tableaux
@@ -150,9 +166,8 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
 if __name__ == "__main__":
 
     # Variables
-    # ids_joueurs = [203076, 1630162, 1628389, 1627742, 203081, 1626164, 202710]
-    ids_joueurs = [203076, 1630162, 1628389, 1627742, 203081, 1626164, 202710, 1630163, 202331, 203497, 1630567, 1629627, 203078, 1641706, 1627749, 1630166, 1630596, 1627750, 201935, 1628991, 1628386, 203114, 1628398, 1629008, 1629628, 201566, 202699, 1630178, 1641705, 203952, 1630559, 1626156, 1627832, 202330, 203924, 1629639]
-    date_du_jour = '23/02/2024'
+    ids_joueurs = [1627759, 203944, 1631094, 203497, 1630595, 1628978, 1630532, 1631105]
+    date_du_jour = '24/02/2024'
 
     temps_debut = time.time()  # Enregistrer le temps de début d'exécution
 

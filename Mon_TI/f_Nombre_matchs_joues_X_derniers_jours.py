@@ -13,10 +13,14 @@ def obtenir_array_nb_matchs_joues_derniers_X_jours(joueur_id,nb_jours_matchs_jou
     # Obtenez la date actuelle et la date d'il y a 30 jours
     start_date = datetime.now() - timedelta(days=nb_jours_matchs_joues)
 
-    # Utilisez l'endpoint player-gamelog pour obtenir les statistiques de jeu du joueur
-    DF_joueur = obtenir_game_log_DF_globaux(joueur_id)
-    
-    DF_joueur['GAME_DATE'] = pd.to_datetime(DF_joueur['GAME_DATE'], format='%b %d, %Y') # Conversion en DataFrame panda, avec spécification du format
+    # Obtenir le DF des prochains matchs du joueur
+    DF_joueur_1 = obtenir_PlayerGameLog_DF_globaux(joueur_id)
+
+    # Copie du DF, puisqu'il me semble que la conversion de la date la ligne suivante, impactait le DF_joueur dans d'autres modules...
+    DF_joueur = DF_joueur_1.copy()
+
+    # Convertir la colonne 'GAME_DATE' en type de données datetime
+    DF_joueur['GAME_DATE'] = pd.to_datetime(DF_joueur['GAME_DATE'], format='%b %d, %Y')
 
     # Filtrer les dates supérieures ou égales à start_date
     dates_superieures_ou_egales = DF_joueur['GAME_DATE'] >= start_date

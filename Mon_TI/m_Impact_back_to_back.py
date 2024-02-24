@@ -8,7 +8,7 @@ from x_Utilitaires import *
 # Fonction pour obtenir le Game Log d'un joueur, en y ajoutant la différence en jours entre chaque match
 def obtenir_stats_joueur_avec_delta_jours(joueur_id):
     # Obtenir le DF du joueur
-    DF_joueur_1 = obtenir_game_log_DF_globaux(joueur_id)
+    DF_joueur_1 = obtenir_PlayerGameLog_DF_globaux(joueur_id)
 
     # Copie du DF, puisqu'il me semble que la conversion de la date la ligne suivante, impactait le DF_joueur dans d'autres modules...
     DF_joueur = DF_joueur_1.copy()

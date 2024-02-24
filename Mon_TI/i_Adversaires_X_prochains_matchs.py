@@ -15,14 +15,13 @@ def convertir_date(date_du_jour):
 # Fonction pour obtenir les prochains matchs d'un joueur
 def obtenir_DF_X_prochains_matchs_un_joueur(joueur_id, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour):
 
-    date_du_jour = convertir_date(date_du_jour)
     joueur_nom = obtenir_joueurNom_avec_joueurID(joueur_id)
     id_equipe_joueur = obtenir_equipeID_avec_joueurID(joueur_id)
 
     if id_equipe_joueur is not None:
 
         # Obtenir le DF des prochains matchs du joueur
-        DF_prochains_matchs_1 = obtenir_prochains_matchs_DF_globaux(joueur_id)
+        DF_prochains_matchs_1 = obtenir_PlayerNextNGames_DF_globaux(joueur_id)
 
         # Copie du DF, puisqu'il me semble que la conversion de la date la ligne suivante, impactait le DF_joueur dans d'autres modules...
         DF_prochains_matchs = DF_prochains_matchs_1.copy()
@@ -59,6 +58,8 @@ def obtenir_DF_X_prochains_matchs_un_joueur(joueur_id, nb_prochains_matchs, nb_m
 # Fonction bouclant pour construire le DF final
 def obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour):
 
+    date_du_jour = convertir_date(date_du_jour)
+
     # Créer une liste pour stocker les DataFrames de chaque joueur
     liste_DF_X_prochains_matchs = []
 
@@ -82,10 +83,10 @@ def obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_
 if __name__ == "__main__":
 
     # Variables
-    ids_joueurs = [203076, 2544, 203944]
+    ids_joueurs = [1627759, 203944, 1631094, 203497, 1630595, 1628978, 1630532, 1631105]
     nb_prochains_matchs = 4     # Nombre de prochains matchs à récupérer
     nb_matchs_a_sauter = 1      # Nombre de matchs à sauter
-    date_du_jour = '23/02/2024' # Date du jour qui nous intéresse
+    date_du_jour = '24/02/2024' # Date du jour qui nous intéresse
 
     DF_X_prochains_matchs = obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour)
 

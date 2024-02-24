@@ -10,7 +10,7 @@ def construire_DF_X_derniers_matchs_un_joueur(joueur_id, nb_matchs):
     joueur_nom = obtenir_joueurNom_avec_joueurID(joueur_id)
 
     if id_equipe:
-        DF_joueur = obtenir_game_log_DF_globaux(joueur_id, nb_matchs)
+        DF_joueur = obtenir_PlayerGameLog_DF_globaux(joueur_id, nb_matchs)
         scores_TTFL_X_derniers = DF_joueur.apply(calcul_score_TTFL, axis=1)
         DF_X_derniers_matchs_un_joueur = pd.DataFrame({f'M-{i+1}': [score] for i, score in enumerate(scores_TTFL_X_derniers)})
         DF_X_derniers_matchs_un_joueur.insert(0, 'Joueur', joueur_nom)

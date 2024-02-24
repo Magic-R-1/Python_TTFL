@@ -11,7 +11,7 @@ def obtenir_array_moyennes(joueur_id):
     joueur_nom = obtenir_joueurNom_avec_joueurID(joueur_id)
 
     # Obtenir les statistiques de jeu pour la saison 2023
-    DF_joueur = obtenir_game_log_DF_globaux(joueur_id)
+    DF_joueur = obtenir_PlayerGameLog_DF_globaux(joueur_id)
 
     # Calculer les moyennes
     moyenne_5_premieres = DF_joueur.head(5).apply(calcul_score_TTFL, axis=1).mean().round(1)

@@ -14,7 +14,7 @@ def obtenir_DF_X_derniers_matchs_avec_NaN_un_joueur(joueur_id, nb_derniers_match
 
         DF_obtenir_equipe_derniers_matchs_DF_globaux = obtenir_equipe_derniers_matchs_DF_globaux(id_equipe,nb_derniers_matchs)['GAME_DATE']
 
-        DF_joueur = obtenir_game_log_DF_globaux(joueur_id, nb_derniers_matchs)
+        DF_joueur = obtenir_PlayerGameLog_DF_globaux(joueur_id, nb_derniers_matchs)
 
         # Fusionner les DataFrames en utilisant la colonne 'GAME_DATE' comme clé de fusion
         DF_joueur_avec_dates_equipe = pd.merge(DF_obtenir_equipe_derniers_matchs_DF_globaux, DF_joueur, how='left', on='GAME_DATE')

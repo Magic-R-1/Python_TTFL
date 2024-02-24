@@ -31,6 +31,7 @@ def calcul_score_TTFL(row):
 # --------------------------------------------------------------------------------------------
 def obtenir_joueurID_avec_joueurNom(joueur_nom):
     player_dict = players.get_players()
+    print(f"Appel à l'API players")
     player =[player for player in player_dict if player['full_name']==joueur_nom][0]
     return player['id']
 
@@ -107,6 +108,7 @@ def obtenir_un_coequipier_dans_equipe_avec_joueurID(joueur_id):
     if equipe_id is not None:
         # Appeler l'endpoint commonteamroster pour obtenir la liste des joueurs dans l'équipe
         roster = commonteamroster.CommonTeamRoster(team_id=equipe_id)
+        print(f"Appel à l'API CommonTeamRoster")
         roster_data = roster.get_normalized_dict()
 
         # Extraire les identifiants des joueurs de l'équipe
@@ -132,7 +134,7 @@ def obtenir_integralite_calendrier_joueur_avec_joueurID(joueur_id):
         matchs_precedents = pd.to_datetime(matchs_precedents['GAME_DATE'], format='%b %d, %Y')
 
         # Récupérer les dates des matchs à venir du joueur
-        matchs_a_venir = obtenir_prochains_matchs_DF_globaux(joueur_id)
+        matchs_a_venir = obtenir_PlayerNextNGames_DF_globaux(joueur_id)
         matchs_a_venir = pd.to_datetime(matchs_a_venir['GAME_DATE'], format='%b %d, %Y')
 
         # Concaténer les deux séries de dates

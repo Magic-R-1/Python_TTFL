@@ -18,6 +18,8 @@ def obtenir_array_equipe_nom(joueur_id):
 # Fonction bouclant pour construire le DF final
 def obtenir_DF_equipes_noms(ids_joueurs):
     
+    charger_cache_CommonPlayerInfo()
+
     # Créer le DataFrame final avec les colonnes nécessaires
     DF_equipes_noms = pd.DataFrame(columns=['Equipe', 'Joueur'])
 
@@ -26,6 +28,8 @@ def obtenir_DF_equipes_noms(ids_joueurs):
         array_equipe_nom = obtenir_array_equipe_nom(joueur_id)          # Obtention de l'array
         DF_equipes_noms.loc[len(DF_equipes_noms)] = array_equipe_nom    # Ajout en dernière ligne du DF
     
+    sauvegarder_cache_CommonPlayerInfo()
+    
     return DF_equipes_noms
 
 # ------------------------------
@@ -33,8 +37,8 @@ def obtenir_DF_equipes_noms(ids_joueurs):
 if __name__ == "__main__":
 
     # Liste d'identifiants de joueurs
-    ids_joueurs = [1628384, 203076, 1628983, 1627742, 1628368, 1626164, 1627759, 203944, 1630163, 1628374, 1631094, 202331, 1630567, 1630169, 1629627, 203078, 1641706, 1630595, 1630166, 1628978, 1630596, 1630532, 1631105, 1627750, 201935, 1628386, 1628398, 1629008, 1629628, 201566, 202699, 1630178, 1641705, 203952, 1630559, 1626156, 1627832, 202330]
-
+    ids_joueurs = [1628384, 203076, 1628983, 1627742, 1628368, 1626164]
+    
     # Appel de la fonction
     DF_equipes_noms = obtenir_DF_equipes_noms(ids_joueurs)
 

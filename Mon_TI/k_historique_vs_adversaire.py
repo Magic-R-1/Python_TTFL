@@ -14,7 +14,7 @@ def obtenir_adversaireID_prochain_match(joueur_id, date_du_jour):
     if id_equipe_joueur is not None:
         
         # Obtenir le DF des prochains matchs du joueur
-        DF_prochains_matchs_1 = obtenir_prochains_matchs_DF_globaux(joueur_id)
+        DF_prochains_matchs_1 = obtenir_PlayerNextNGames_DF_globaux(joueur_id)
 
         # Copie du DF, puisqu'il me semble que la conversion de la date la ligne suivante, impactait le DF_joueur dans d'autres modules...
         DF_prochains_matchs = DF_prochains_matchs_1.copy()
@@ -46,7 +46,7 @@ def obtenir_DF_historique_vs_adversaire_un_joueur(joueur_id, nombre_de_matchs_vs
     adversaireID_prochain_match = obtenir_adversaireID_prochain_match(joueur_id, date_du_jour)
 
     # Obtenir les statistiques de jeu pour la saison en cours (à adapter selon vos besoins)
-    DF_joueur = obtenir_game_log_DF_globaux(joueur_id)
+    DF_joueur = obtenir_PlayerGameLog_DF_globaux(joueur_id)
 
     # Obtenez l'abréviation de l'équipe adverse
     equipe_adverseABV = obtenir_equipeABV_avec_equipeID(adversaireID_prochain_match)
