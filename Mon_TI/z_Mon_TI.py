@@ -95,7 +95,7 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
     DF_intervalles = obtenir_DF_intervalles_derniers_X_jours(ids_joueurs, nb_jours_matchs_joues, limite_1, limite_2, limite_3)
     # ---------------------------------------------------------------------------------------
 
-# ---------------------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------------------
     # Derniers matchs_avec_NaN
     afficher_progression(index)
     index += 1
@@ -141,21 +141,25 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
     DF_impact_B2B = obtenir_DF_impact_B2B(ids_joueurs, date_du_jour)
     # ---------------------------------------------------------------------------------------
 
-    # Concaténation des tableaux
-    mon_TI = pd.DataFrame()
-    mon_TI = pd.concat([mon_TI, DF_equipes_noms], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_joueurs_status], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_postes], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_back_to_back], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_moyennes], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_matchs_joues_X_derniers_jours], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_intervalles], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_X_derniers_matchs_avec_NaN], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_adversaire_du_soir], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_historiques_vs_adversaires], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_X_prochains_matchs], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_impact_domicile_ou_exterieurs], axis=1)
-    mon_TI = pd.concat([mon_TI, DF_impact_B2B], axis=1)
+    # Liste contenant tous les DataFrames que vous voulez concaténer
+    list_DF = [
+        DF_equipes_noms,
+        DF_joueurs_status,
+        DF_postes,
+        DF_back_to_back,
+        DF_moyennes,
+        DF_matchs_joues_X_derniers_jours,
+        DF_intervalles,
+        DF_X_derniers_matchs_avec_NaN,
+        DF_adversaire_du_soir,
+        DF_historiques_vs_adversaires,
+        DF_X_prochains_matchs,
+        DF_impact_domicile_ou_exterieurs,
+        DF_impact_B2B
+    ]
+
+    # Concaténation des DataFrames
+    mon_TI = pd.concat(list_DF, axis=1)
 
     # Tri du tableau par ordre décroissant de la colonne 15 matchs
     mon_TI = mon_TI.sort_values(by='15M', ascending=False)
