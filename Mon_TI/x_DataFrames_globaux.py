@@ -1,5 +1,6 @@
 import pickle
 import time
+import sys
 from json.decoder import JSONDecodeError
 
 from nba_api.stats.endpoints import playernextngames, playergamelog, teamgamelog, commonplayerinfo, boxscoretraditionalv2
@@ -173,17 +174,21 @@ def vider_remplir_cache_CommonPlayerInfo():
     ###########################################
 
     ###########################################
-    # Remplir le cache
-    for joueur_id in liste_joueursIDs:
+    # Remplir le cache, et afficher un message
+    for index, joueur_id in enumerate(liste_joueursIDs, start=1):
+        progression = int(round(index/len(liste_joueursIDs)*100,0))
+        message = f"\rEn cours : Joueur {index}/{len(liste_joueursIDs)}, {progression}%"
+        sys.stdout.write(message)  # Effacer la ligne précédente
+        sys.stdout.flush()
         obtenir_CommonPlayerInfo_DF_globaux(joueur_id)
     
     # Sauvegarder le cache désormais rempli
     sauvegarder_cache_CommonPlayerInfo()
 
     # Afficher le message de confirmation
+    print()
     print_message_de_confirmation(temps_debut)
     ###########################################
-
 # --------------------------------------------------------------------------------------------
 
 
