@@ -100,7 +100,7 @@ def obtenir_joueurPoste_avec_joueurID(joueur_id):
         return None
 
 # --------------------------------------------------------------------------------------------
-# Obtenir le poste du joueur avec son ID en format abrégé (par exemple, F-C devient F-C)
+# Obtenir le poste du joueur avec son ID en format abrégé (par exemple, Forward-Center devient F-C)
 def obtenir_joueurPosteAbregee_avec_joueurID(joueur_id):
     poste_complet = obtenir_joueurPoste_avec_joueurID(joueur_id)
     
@@ -111,14 +111,28 @@ def obtenir_joueurPosteAbregee_avec_joueurID(joueur_id):
         
         poste_abrege = poste_abrege[:-1] # Enlever le dernier "-"
 
-        # Transformer en triplette
-        triplette_poste = trouver_equivalence_triplette_poste(poste_abrege)
+        # Retraiter le poste du joueur parmis un liste de joueurs spécifique
+        poste_reprocessed = retraitement_poste_joueurs_specifiques(joueur_id)
+        if poste_reprocessed is not None:
+            triplette_poste = poste_reprocessed
+        else : # Si pas de traitement spécifique, obtenir le poste parmis la triplette
+            triplette_poste = trouver_equivalence_triplette_poste(poste_abrege)
 
         return triplette_poste
-        # return poste_abrege[:-1]  # Enlever le dernier "-"
     else:
         return None
 
+# --------------------------------------------------------------------------------------------
+# Fonction pour retraiter le poste de certains joueurs (comme Lauri Markkanen, que l'on veut en F et pas en C)
+# 1628374
+def retraitement_poste_joueurs_specifiques(joueur_id):
+    equivalence = {
+        1628374: 'F', # Lauri Markkanen
+    }
+    return equivalence.get(joueur_id)
+
+# --------------------------------------------------------------------------------------------
+# Fonction pour transformer l'abbréviation du poste du joueur vers une des 3 possibilités : G, F, C
 def trouver_equivalence_triplette_poste(position):
     # Création du tableau d'équivalence
     equivalence = {

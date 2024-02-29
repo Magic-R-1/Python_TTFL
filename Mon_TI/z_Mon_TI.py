@@ -164,6 +164,13 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
     # Tri du tableau par ordre décroissant de la colonne 15 matchs
     mon_TI = mon_TI.sort_values(by='15M', ascending=False)
 
+    # Diviser le DataFrame en deux parties: une avec le statut "Out" et une avec les autres statuts
+    mon_TI_not_out = mon_TI[mon_TI['Statut'] != 'Out']
+    mon_TI_out = mon_TI[mon_TI['Statut'] == 'Out']
+
+    # Réassembler les deux parties
+    mon_TI = pd.concat([mon_TI_not_out, mon_TI_out])
+
     return mon_TI
 
 # ------------------------------
