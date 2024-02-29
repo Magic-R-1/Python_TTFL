@@ -49,7 +49,8 @@ def obtenir_DF_BoxScore_scoreTTFLpondere_minutes(match_id, equipe_id):
     DF_BoxScore_TTFL = obtenir_DF_BoxScore_TTFL_avec_matchID(match_id, equipe_id)
     
     # Création du DF final, récapitulant la somme des scores TTFL pondérés et la somme des minutes par porte pour un match
-    DF_BoxScore_scoreTTFLpondere_minutes = pd.DataFrame(['G', 'G-F', 'F-G', 'F', 'F-C', 'C-F', 'C'], columns=['Poste'])
+    # DF_BoxScore_scoreTTFLpondere_minutes = pd.DataFrame(['G', 'G-F', 'F-G', 'F', 'F-C', 'C-F', 'C'], columns=['Poste'])
+    DF_BoxScore_scoreTTFLpondere_minutes = pd.DataFrame(['G', 'F', 'C'], columns=['Poste'])
     
     # Définir les variables faisant les sommes par poste pour un match
     liste_sommes_scores_TTFL_ponderes = []
@@ -143,8 +144,8 @@ def obtenir_DF_moyenne_par_poste():
     liste_equipes_IDs = obtenir_liste_equipes_IDs() # Obtenir la liste des identifiants des équipes
     
     Dictionnaire_moyenne_par_poste = {} # Initialiser le dictionnaire pour stocker les résultats par équipe
-    liste_somme_TTFL_par_poste_globale = np.zeros(8)    # Initialiser les sommes totales des scores TTFL par poste. 8 correspond aux 7 postes plus le global
-    liste_somme_minutes_par_poste_globale = np.zeros(8) # Initialiser les sommes totales des minutes par poste. 8 correspond aux 7 postes plus le global
+    liste_somme_TTFL_par_poste_globale = np.zeros(4)    # Initialiser les sommes totales des scores TTFL par poste. 8 correspond aux 7 postes plus le global
+    liste_somme_minutes_par_poste_globale = np.zeros(4) # Initialiser les sommes totales des minutes par poste. 8 correspond aux 7 postes plus le global
 
     # Boucle sur chaque équipe
     for equipe_id in liste_equipes_IDs:
@@ -191,7 +192,8 @@ def obtenir_DF_moyenne_par_poste():
 
     # Créer un DataFrame à partir du dictionnaire des résultats
     DF_moyenne_par_poste = pd.DataFrame(Dictionnaire_moyenne_par_poste)
-    DF_moyenne_par_poste.insert(0, 'Poste', ['G', 'G-F', 'F-G', 'F', 'F-C', 'C-F', 'C', 'Global'])    # Insérer les postes
+    # DF_moyenne_par_poste.insert(0, 'Poste', ['G', 'G-F', 'F-G', 'F', 'F-C', 'C-F', 'C', 'Global'])    # Insérer les postes
+    DF_moyenne_par_poste.insert(0, 'Poste', ['G', 'F', 'C', 'Global'])    # Insérer les postes
 
     # Appel de la fonction obtenir_DF_moyenne_par_poste qui retourne liste_somme_TTFL_par_poste_globale uniquement
     # _, liste_somme_TTFL_par_poste_globale, _ = obtenir_DF_moyenne_par_poste()

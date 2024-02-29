@@ -1,0 +1,9 @@
+G	: G
+G-F	: G
+F-G	: F
+F	: F
+F-C	: C (Sabonis en C, Davis en C, Jaren Jackson en C)
+C-F	: C
+C	: C
+
+Lauri Markkanen en F-C mais F

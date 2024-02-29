@@ -17,7 +17,7 @@ def obtenir_array_intervalles_derniers_X_jours(joueur_id,limite_1,limite_2,limit
 
     # Mettre le résultat dans un DF
     DF_X_derniers_matchs = construire_DF_X_derniers_matchs_un_joueur(joueur_id, nb_matchs_joues_X_derniers_jours)
-    
+
     # Enlever les joueurs
     DF_X_derniers_matchs = DF_X_derniers_matchs.drop(columns=['Joueur'])
 
@@ -53,11 +53,12 @@ def obtenir_DF_intervalles_derniers_X_jours(ids_joueurs, nb_jours_matchs_joues, 
 if __name__ == "__main__":
 
     #Variables
-    ids_joueurs = [1626164,  2544]  # Liste de joueurs
-    limite_1 = 20                   # Limite du premier intervalle
-    limite_2 = 30                   # Limite du deuxième intervalle
-    limite_3 = 40                   # Limite du troisième intervalle
-    nb_jours_matchs_joues = 30      # Nombre de jours sur lesquels obtenir le nombre de matchs joués
+    # Liste de joueurs
+    ids_joueurs = [203076, 1627742, 1628368, 1627734, 2544, 1627783, 202331, 203497, 1630567, 1630169, 1629627, 1630596]
+    limite_1 = 20               # Limite du premier intervalle
+    limite_2 = 30               # Limite du deuxième intervalle
+    limite_3 = 40               # Limite du troisième intervalle
+    nb_jours_matchs_joues = 30  # Nombre de jours sur lesquels obtenir le nombre de matchs joués
 
     # DF final
     DF_intervalles = obtenir_DF_intervalles_derniers_X_jours(ids_joueurs, nb_jours_matchs_joues, limite_1, limite_2, limite_3)

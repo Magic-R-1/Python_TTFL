@@ -63,17 +63,17 @@ def obtenir_PlayerGameLog_DF_globaux(joueur_id, nb_matchs=None):
     global dictionnaire_PlayerGameLog
 
     if joueur_id in dictionnaire_PlayerGameLog and dictionnaire_PlayerGameLog[joueur_id] is not None:
-        return dictionnaire_PlayerGameLog[joueur_id]
+        DF_joueur = dictionnaire_PlayerGameLog[joueur_id]
     else:
         game_log = playergamelog.PlayerGameLog(player_id=joueur_id, season=ma_saison)
         # print(f'Appel API PlayerGameLog pour {joueur_id}')
         DF_joueur = game_log.get_data_frames()[0]
         dictionnaire_PlayerGameLog[joueur_id] = DF_joueur
 
-        if nb_matchs is not None:
-            DF_joueur = DF_joueur.head(nb_matchs)
+    if nb_matchs is not None:
+        DF_joueur = DF_joueur.head(nb_matchs)
 
-        return DF_joueur
+    return DF_joueur
 # --------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------

@@ -108,10 +108,29 @@ def obtenir_joueurPosteAbregee_avec_joueurID(joueur_id):
         poste_abrege = ""
         for pos in poste_complet.split("-"):
             poste_abrege += pos[0] + "-"
+        
+        poste_abrege = poste_abrege[:-1] # Enlever le dernier "-"
 
-        return poste_abrege[:-1]  # Enlever le dernier "-"
+        # Transformer en triplette
+        triplette_poste = trouver_equivalence_triplette_poste(poste_abrege)
+
+        return triplette_poste
+        # return poste_abrege[:-1]  # Enlever le dernier "-"
     else:
         return None
+
+def trouver_equivalence_triplette_poste(position):
+    # Création du tableau d'équivalence
+    equivalence = {
+        'G': 'G',
+        'G-F': 'G',
+        'F-G': 'F',
+        'F': 'F',
+        'F-C': 'C',
+        'C-F': 'C',
+        'C': 'C'
+    }
+    return equivalence.get(position)
 
 # --------------------------------------------------------------------------------------------
 # Fonction pour palier aux erreurs du endpoints nextgames
