@@ -4,6 +4,14 @@ from x_Utilitaires import *
 from x_DataFrames_globaux import *
 
 # ------------------------------
+# Fonction pour convertir la date
+def convertir_date_du_jour(date_du_jour):
+    date_du_jour = datetime.strptime(date_du_jour, '%d/%m/%Y')  # Convertir la chaîne en objet datetime
+    date_du_jour = date_du_jour.strftime("%b %d, %Y")           # Formater la date
+    date_du_jour = pd.Timestamp(date_du_jour)                   # Convertir date_du_jour en Timestamp
+    return date_du_jour
+
+# ------------------------------
 # Fonction pour obtenir le prochain adversaire d'un joueur
 def obtenir_adversaireID_prochain_match(joueur_id, date_du_jour):
     
@@ -22,9 +30,9 @@ def obtenir_adversaireID_prochain_match(joueur_id, date_du_jour):
         # Convertir la colonne 'GAME_DATE' en type de données datetime
         DF_prochains_matchs['GAME_DATE'] = pd.to_datetime(DF_prochains_matchs['GAME_DATE'], format='%b %d, %Y')
 
-        # Filtrer pour ne garder que les dates après celle qui nous intéresse et reset l'index, pour que la boucle ci-dessous fonctionne
+        # Filtrer pour ne garder que les dates après celle qui nous intéresse et reset l'index
         DF_prochains_matchs = DF_prochains_matchs[DF_prochains_matchs['GAME_DATE'] >= date_du_jour].reset_index(drop=True)
-
+        
         # Obtient l'ID de l'équipe à domicile et à l'extérieur pour le prochain match
         home_team_id, visitor_team_id = DF_prochains_matchs.loc[0, ['HOME_TEAM_ID', 'VISITOR_TEAM_ID']]
 
@@ -74,6 +82,9 @@ def obtenir_DF_historique_vs_adversaire_un_joueur(joueur_id, nombre_de_matchs_vs
 # Fonction bouclant pour construire le DF final
 def obtenir_DF_historiques_vs_adversaires(ids_joueurs, nombre_de_matchs_vs_adversaire, date_du_jour):
 
+    # Convertir la date du jour
+    date_du_jour = convertir_date_du_jour(date_du_jour)
+
     # Créer une liste pour stocker les DataFrames individuels de chaque joueur
     liste_DF_historique_vs_adversaire = []
 
@@ -98,8 +109,8 @@ def obtenir_DF_historiques_vs_adversaires(ids_joueurs, nombre_de_matchs_vs_adver
 if __name__ == "__main__":
 
     # Variables
-    date_du_jour = '26/02/2024'         # Date du jour qui nous intéresse
-    ids_joueurs = [203999, 1630169]     # Liste de joueurs
+    ids_joueurs = [1628378, 203999]
+    date_du_jour = '05/03/2024'
     nombre_de_matchs_vs_adversaire = 3  # Nombre de matchs contre l'adversaire que l'on souhaite avoir dans l'historique
     
     DF_historiques_vs_adversaires = obtenir_DF_historiques_vs_adversaires(ids_joueurs, nombre_de_matchs_vs_adversaire, date_du_jour)

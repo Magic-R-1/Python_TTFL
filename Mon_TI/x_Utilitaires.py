@@ -278,7 +278,7 @@ def exporter_vers_Excel_generique(DF, file_name):
 
 # --------------------------------------------------------------------------------------------
 # Génerer un fichier Excel
-def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour):
+def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour, suffixe=None):
 
     # Spécifiez le chemin du dossier
     chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel\TI'
@@ -287,8 +287,11 @@ def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour):
     date_du_jour = datetime.strptime(date_du_jour, '%d/%m/%Y')  # Convertir la chaîne en objet datetime
     date_du_jour = date_du_jour.strftime("%Y_%m_%d")            # Formater la date
 
-    # Créez le nom du fichier Excel
-    nom_fichier_excel = f'Mon_TI_{date_du_jour}.xlsx'
+    if suffixe is None:
+        # Créez le nom du fichier Excel
+        nom_fichier_excel = f'Mon_TI_{date_du_jour}.xlsx'
+    else :
+        nom_fichier_excel = f'Mon_TI_{date_du_jour}_{suffixe}.xlsx'
 
     # Utilisez os.path.join pour former le chemin complet du fichier
     chemin_nom_excel = os.path.join(chemin_fichier_excel, nom_fichier_excel)
