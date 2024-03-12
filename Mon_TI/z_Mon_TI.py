@@ -181,8 +181,8 @@ if __name__ == "__main__":
     charger_cache()             # Charger le cache
 
     # Variables
-    ids_joueurs = [203507, 202681, 1628389, 203081, 1626164, 1627759, 1628369, 202331, 1629027, 203078, 1627749, 1630166, 1630532, 1631105, 1627750, 201935, 203114, 204001, 1629008, 1629628, 201566, 1629639]
-    date_du_jour = '17/03/2024'
+    ids_joueurs = [203081, 1628368, 1628973, 1627759, 1628369, 1628374, 1627783, 202331, 1630169, 1631096, 1630166, 1628978, 201935, 1628991, 203114, 204001, 201566, 202699, 1630178, 1627832, 202330]
+    date_du_jour = '12/03/2024'
 
     mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)  # Obtenir le TI
     exporter_vers_Excel_mon_TI(mon_TI, date_du_jour)    # Exporter le TI vers Excel
