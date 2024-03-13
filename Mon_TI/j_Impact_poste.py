@@ -200,7 +200,7 @@ def obtenir_DF_moyenne_par_poste():
     return DF_moyenne_par_poste, liste_somme_TTFL_par_poste_globale, liste_somme_minutes_par_poste_globale
 
 # ------------------------------
-# Fonction principale pour obtenir les deltas TTFL par poste pour chaque équipe
+# Fonction pour obtenir les deltas TTFL par poste pour chaque équipe
 def obtenir_DF_delta_par_poste():
 
     # Appel de la fonction obtenir_DF_moyenne_par_poste qui retourne DF_moyenne_par_poste, liste_somme_TTFL_par_poste_globale, et liste_somme_minutes_par_poste_globale
@@ -219,6 +219,7 @@ def obtenir_DF_delta_par_poste():
     return DF_delta_par_poste
 
 # ------------------------------
+# Fontcion pour rajouter un poste global, ainsi que le minimum et le maximum de chaque poste
 def obtenir_rajouter_Min_Max_PosteGlobal_DF_delta_par_poste():
 
     DF_delta_par_poste = obtenir_DF_delta_par_poste()
