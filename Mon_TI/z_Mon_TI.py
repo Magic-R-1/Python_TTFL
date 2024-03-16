@@ -32,7 +32,7 @@ def afficher_progression(index):
 # ------------------------------
 # Fonction pour insérer une colonne avec la somme des impacts
 def inserer_somme_impacts(mon_TI):
-    somme_des_impacts = mon_TI["delta_B2B"] + mon_TI["Delta"] + mon_TI[""]
+    somme_des_impacts = mon_TI["delta_B2B"] + mon_TI["delta_dom_ext"] + mon_TI[""]
     
     # Utilisez la méthode insert pour insérer la nouvelle colonne à l'index 17
     mon_TI.insert(loc=17, column='Nouvelle_colonne', value=somme_des_impacts)

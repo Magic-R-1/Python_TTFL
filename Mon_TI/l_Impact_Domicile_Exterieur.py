@@ -82,7 +82,7 @@ def obtenir_array_delta_domicile_ou_exterieur(joueur_id, date_du_jour):
 def obtenir_DF_impact_domicile_ou_exterieurs(ids_joueurs, date_du_jour):
 
      # Créer le DataFrame final avec les colonnes nécessaires
-    DF_impact_domicile_ou_exterieurs = pd.DataFrame(columns=['Joueur', 'vs or @','Delta'])
+    DF_impact_domicile_ou_exterieurs = pd.DataFrame(columns=['Joueur', 'dom_ext','delta_dom_ext'])
 
     date_du_jour = convertir_date(date_du_jour)
 
