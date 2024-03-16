@@ -30,6 +30,16 @@ def afficher_progression(index):
     sys.stdout.flush()
 
 # ------------------------------
+# Fonction pour insérer une colonne avec la somme des impacts
+def inserer_somme_impacts(mon_TI):
+    somme_des_impacts = mon_TI["delta_B2B"] + mon_TI["Delta"] + mon_TI[""]
+    
+    # Utilisez la méthode insert pour insérer la nouvelle colonne à l'index 17
+    mon_TI.insert(loc=17, column='Nouvelle_colonne', value=somme_des_impacts)
+    
+    return mon_TI
+
+# ------------------------------
 # Fonction principale, pour construire les tableaux et les assembler en un TI
 def obtenir_mon_TI(ids_joueurs, date_du_jour):
 
@@ -103,6 +113,20 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
     # ---------------------------------------------------------------------------------------
 
     # ---------------------------------------------------------------------------------------
+    # Impact domicile ou exterieur
+    afficher_progression(index)
+    index += 1
+    DF_impact_domicile_ou_exterieurs = obtenir_DF_impact_domicile_ou_exterieurs(ids_joueurs, date_du_jour)
+    # ---------------------------------------------------------------------------------------
+
+    # ---------------------------------------------------------------------------------------
+    # Impact B2B
+    afficher_progression(index)
+    index += 1
+    DF_impact_B2B = obtenir_DF_impact_B2B(ids_joueurs, date_du_jour)
+    # ---------------------------------------------------------------------------------------
+
+    # ---------------------------------------------------------------------------------------
     # Adversaire du soir
     afficher_progression(index)
     index += 1
@@ -127,20 +151,6 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
     DF_X_prochains_matchs = obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour)
     # ---------------------------------------------------------------------------------------
 
-    # ---------------------------------------------------------------------------------------
-    # Impact domicile ou exterieur
-    afficher_progression(index)
-    index += 1
-    DF_impact_domicile_ou_exterieurs = obtenir_DF_impact_domicile_ou_exterieurs(ids_joueurs, date_du_jour)
-    # ---------------------------------------------------------------------------------------
-
-    # ---------------------------------------------------------------------------------------
-    # Impact B2B
-    afficher_progression(index)
-    index += 1
-    DF_impact_B2B = obtenir_DF_impact_B2B(ids_joueurs, date_du_jour)
-    # ---------------------------------------------------------------------------------------
-
     # Liste contenant tous les DataFrames que vous voulez concaténer
     list_DF = [
         DF_equipes_noms,
@@ -151,15 +161,18 @@ def obtenir_mon_TI(ids_joueurs, date_du_jour):
         DF_matchs_joues_X_derniers_jours,
         DF_intervalles,
         DF_X_derniers_matchs_avec_NaN,
+        DF_impact_domicile_ou_exterieurs,
+        DF_impact_B2B,
         DF_adversaire_du_soir,
         DF_historiques_vs_adversaires,
-        DF_X_prochains_matchs,
-        DF_impact_domicile_ou_exterieurs,
-        DF_impact_B2B
+        DF_X_prochains_matchs
     ]
 
     # Concaténation des DataFrames
     mon_TI = pd.concat(list_DF, axis=1)
+
+    # Insérer une colonne avec la somme des impacts
+    # mon_TI = inserer_somme_impacts(mon_TI)
 
     # Tri du tableau par ordre décroissant de la colonne 15 matchs
     mon_TI = mon_TI.sort_values(by='15M', ascending=False)
@@ -181,8 +194,8 @@ if __name__ == "__main__":
     charger_cache()             # Charger le cache
 
     # Variables
-    ids_joueurs = [1628389, 1626164, 1628374, 202331, 1629027, 203078, 1641706, 1630595, 1627749, 1630532, 1631105, 1627750, 201935, 1629008, 1628970, 1629628, 201566, 1629639]
-    date_du_jour = '15/03/2024'
+    ids_joueurs = [1628378, 1628368, 1628973, 1630228, 1626157, 1628374, 1627783, 201939, 1630169, 1641706, 1631096, 1630166, 1628978, 1630596, 1628991, 1628386, 1628970, 202696, 202699, 1630178, 203952, 1630559, 1626156, 1627832, 202330, 203924]
+    date_du_jour = '16/03/2024'
 
     mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)  # Obtenir le TI
     exporter_vers_Excel_mon_TI(mon_TI, date_du_jour)    # Exporter le TI vers Excel
