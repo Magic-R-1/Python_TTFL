@@ -84,7 +84,7 @@ def obtenir_PlayerNextNGames_DF_globaux(joueur_id):
     from x_Utilitaires import obtenir_un_coequipier_dans_equipe_avec_joueurID, obtenir_joueurNom_avec_joueurID
 
     global dictionnaire_PlayerNextNGames
-    joueur_nom = obtenir_joueurNom_avec_joueurID(joueur_id)
+    # joueur_nom = obtenir_joueurNom_avec_joueurID(joueur_id)
 
     if joueur_id in dictionnaire_PlayerNextNGames and dictionnaire_PlayerNextNGames[joueur_id] is not None:
         DF_prochains_matchs = dictionnaire_PlayerNextNGames[joueur_id].copy()
@@ -94,7 +94,7 @@ def obtenir_PlayerNextNGames_DF_globaux(joueur_id):
             # print(f'Appel API PlayerNextNGames pour {joueur_nom} ({joueur_id})')
         except JSONDecodeError: # Erreur avec PlayerNextNGames sur certains joueurs, sans raison apparente, on prend donc l'id d'un coéquipier
             nouvel_id = obtenir_un_coequipier_dans_equipe_avec_joueurID(joueur_id)
-            nouveau_nom = obtenir_joueurNom_avec_joueurID(nouvel_id)
+            # nouveau_nom = obtenir_joueurNom_avec_joueurID(nouvel_id)
 
             prochains_matchs = playernextngames.PlayerNextNGames(player_id=nouvel_id)
             # print(f"Appel API PlayerNextNGames pour {joueur_nom} ({joueur_id}) remplacé par {nouveau_nom} ({nouvel_id})")
