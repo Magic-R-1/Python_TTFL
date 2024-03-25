@@ -193,11 +193,17 @@ if __name__ == "__main__":
     temps_debut = time.time()   # Enregistrer le temps de début d'exécution
     charger_cache()             # Charger le cache
 
-    # Variables
-    ids_joueurs = [203076, 1628378, 1629029, 1630162, 1628389, 1627734, 1630228, 1626157, 202695, 1628374, 202331, 1630567, 201939, 1641706, 1631096, 1630166, 1628978, 1630596, 201935, 1629008, 1628970, 202696, 1629628, 201566, 1626179, 202699, 1630178, 1641705, 203952, 1630559, 1630560, 1626156, 202330, 1629651, 1629639]
-    date_du_jour = '31/03/2024'
+    # Définir les listes d'identifiants de joueurs et les dates
+    list_ids_joueurs = [
+        [1628378, 1627759, 1628374, 202331, 1629027, 1630169, 203078, 1641706, 1630595, 1627749, 1630166, 1628978, 1630596, 1631105, 201935, 1628991, 204001, 1629008, 1628970, 202696, 1629628, 201566, 1626179, 202699, 1630178, 1630560, 1630224, 203924, 1629651],
+        [1629029, 1628389, 1630228, 201939, 1631096, 203114, 203952, 1630559, 1626156, 202330, 1629639],
+        [1628378, 1630162, 1630228, 1626157, 1628374, 1631094, 202331, 1630567, 201939, 1629027, 1630169, 203078, 1641706, 1630595, 1631096, 1627749, 1630166, 1628978, 1630596, 1630532, 1631105, 201935, 1628991, 1629008, 1628970, 202696, 1629628, 201566, 1626179, 202699, 1630178, 203952, 1630559, 1630560, 1626156, 202330, 203924, 1629651]
+    ]
+    list_dates_du_jour = ['25/03/2024', '26/03/2024', '27/03/2024']
 
-    mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)  # Obtenir le TI
-    exporter_vers_Excel_mon_TI(mon_TI, date_du_jour)    # Exporter le TI vers Excel
-    sauvegarder_cache()                                 # Sauvegarder le cache
-    print_message_de_confirmation(temps_debut)          # Afficher le message de confirmation
+    # Boucler sur les listes d'identifiants de joueurs et de dates
+    for ids_joueurs, date_du_jour in zip(list_ids_joueurs, list_dates_du_jour):
+        mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)  # Obtenir le TI
+        exporter_vers_Excel_mon_TI(mon_TI, date_du_jour)    # Exporter le TI vers Excel
+        sauvegarder_cache()                                 # Sauvegarder le cache
+        print_message_de_confirmation(temps_debut)          # Afficher le message de confirmation
