@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 
 import sys
-sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Mon_TI')
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Application/Python')
 
-from k_Impact_poste import *
+from j_Impact_poste import *
 
 def poste_ABV_to_poste_full(poste_ABV):
     mapping = {

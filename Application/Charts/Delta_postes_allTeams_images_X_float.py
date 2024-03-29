@@ -4,7 +4,7 @@ import matplotlib.image as mpimg
 from PIL import Image
 
 import sys
-sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Mon_TI')
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Application/Python')
 
 from k_Impact_poste import *
 

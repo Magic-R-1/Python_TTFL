@@ -1,16 +1,23 @@
+import pandas as pd
 from sqlalchemy.exc import IntegrityError
+
 from nba_api.stats.endpoints import commonplayerinfo
+
 from Gestion_SQL import *
 
-import pandas as pd
+import sys
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL')
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Application')
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Application/Python')
+from Python.x_Utilitaires import *
 
 def addLinePlayers(player_ids, engine):
     for player_id in player_ids:
         try:
             # Charger votre DataFrame
             DF_joueur_info = commonplayerinfo.CommonPlayerInfo(player_id=player_id).get_data_frames()[0]
+            exporter_vers_Excel_generique(DF_joueur_info, "DF_joueur_info")
             print(DF_joueur_info)
-
 
             df = pd.DataFrame(DF_joueur_info)
 
