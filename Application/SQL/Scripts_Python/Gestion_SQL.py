@@ -1,4 +1,3 @@
-import pandas as pd
 import psycopg2
 from sqlalchemy import create_engine
 
@@ -13,7 +12,7 @@ def IDsConnexionSQL():
 
     return host, database, user, password, port
 
-# Pas utilisé
+# Ouverture du conn
 def OuvrirConnSQL():
     host, database, user, password, port = IDsConnexionSQL()
 
@@ -28,11 +27,6 @@ def OuvrirConnSQL():
 
     return conn
 
-# Pas utilisé
-def FermerConnSQL(conn):
-    # Fermer la connexion
-    conn.close()
-
 # Création de l'engine pour connexion à la base
 def CreerEngineSQL():
     host, database, user, password, port = IDsConnexionSQL()
@@ -41,7 +35,3 @@ def CreerEngineSQL():
     engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{database}")
 
     return engine
-
-# Suppression de l'engine
-def SupprimerEngineSQL(engine):
-    engine.dispose()

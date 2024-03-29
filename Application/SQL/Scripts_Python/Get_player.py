@@ -59,7 +59,7 @@ def RecupererJoueurs(player_ids, engine):
 # Point d'entrée du programme
 if __name__ == "__main__":
     
-    player_ids = [202681, 1629029]
+    player_ids = [202681]
 
     # Création de l'engine
     engine = CreerEngineSQL()
@@ -68,6 +68,6 @@ if __name__ == "__main__":
     joueurs_df = RecupererJoueurs(player_ids, engine)
 
     # Suppression de l'engine
-    SupprimerEngineSQL(engine)
+    engine.dispose()
 
     print(joueurs_df)

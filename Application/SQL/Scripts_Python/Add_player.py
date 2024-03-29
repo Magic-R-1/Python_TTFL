@@ -72,11 +72,12 @@ def addLinePlayers(player_ids, engine):
 # Point d'entrée du programme
 if __name__ == "__main__":
     
-    player_ids = [2544]  # Exemple de liste d'IDs de joueurs
+    # Liste d'IDs de joueurs
+    player_ids = [2544]
 
     engine = CreerEngineSQL()
 
     # Effectuer l'opération SQL
     addLinePlayers(player_ids, engine)
 
-    SupprimerEngineSQL(engine)
+    engine.dispose()

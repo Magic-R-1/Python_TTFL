@@ -1,14 +1,13 @@
 import pandas as pd
-import psycopg2
-from psycopg2 import Error
 from Gestion_SQL import *
 from nba_api.stats.endpoints import commonplayerinfo
 
 def addLinePlayers(player_ids, conn):
-    try:
+
         cursor = conn.cursor()
 
         for player_id in player_ids:
+            
             # Charger les nouvelles données du joueur depuis l'API NBA
             DF_joueur_info = commonplayerinfo.CommonPlayerInfo(player_id=player_id).get_data_frames()[0]
 
@@ -61,8 +60,6 @@ def addLinePlayers(player_ids, conn):
             # Réinsérer la colonne à la dernière position
             DF_joueur_info.insert(len(DF_joueur_info.columns), colonne_a_deplacer.name, colonne_a_deplacer)
 
-            print(DF_joueur_info)
-
             # Construire la requête SQL UPDATE
             sql_query = """UPDATE player SET
                             first_name = %s,
@@ -102,32 +99,19 @@ def addLinePlayers(player_ids, conn):
             # Convertir le DataFrame en liste de tuples pour l'exécution de la requête
             values = [tuple(row) for row in DF_joueur_info.values.tolist()]
 
-            print(values)
-
             cursor.executemany(sql_query, values)
             conn.commit()
-
-    except Error as e:
-        print("Erreur PostgreSQL lors de la mise à jour des données :", e)
-
-    finally:
-        if conn:
             cursor.close()
 
 # Point d'entrée du programme
 if __name__ == "__main__":
-    player_ids = [2]  # Exemple de liste d'IDs de joueurs
 
-    try:
-        # Se connecter à la base de données PostgreSQL
-        conn = OuvrirConnSQL()
+    player_ids = [203076]  # Exemple de liste d'IDs de joueurs
 
-        # Effectuer l'opération SQL pour chaque joueur
-        addLinePlayers(player_ids, conn)
+    # Se connecter à la base de données PostgreSQL
+    conn = OuvrirConnSQL()
 
-    except Error as e:
-        print("Erreur PostgreSQL lors de la connexion à la base de données :", e)
+    # Effectuer l'opération SQL pour chaque joueur
+    addLinePlayers(player_ids, conn)
 
-    finally:
-        if conn:
-            conn.close()
+    conn.close()
