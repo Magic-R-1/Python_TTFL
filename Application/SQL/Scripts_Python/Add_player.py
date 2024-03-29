@@ -9,6 +9,7 @@ import sys
 sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL')
 sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Application')
 sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Application/Python')
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Application/SQL')
 from Python.x_Utilitaires import *
 
 def addLinePlayers(player_ids, engine):
@@ -16,8 +17,8 @@ def addLinePlayers(player_ids, engine):
         try:
             # Charger votre DataFrame
             DF_joueur_info = commonplayerinfo.CommonPlayerInfo(player_id=player_id).get_data_frames()[0]
-            exporter_vers_Excel_generique(DF_joueur_info, "DF_joueur_info")
-            print(DF_joueur_info)
+            # exporter_vers_Excel_generique(DF_joueur_info, "DF_joueur_info")
+            # print(DF_joueur_info)
 
             df = pd.DataFrame(DF_joueur_info)
 
@@ -71,7 +72,7 @@ def addLinePlayers(player_ids, engine):
 # Point d'entrée du programme
 if __name__ == "__main__":
     
-    player_ids = [2]  # Exemple de liste d'IDs de joueurs
+    player_ids = [2544]  # Exemple de liste d'IDs de joueurs
 
     engine = CreerEngineSQL()
 
