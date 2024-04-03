@@ -14,13 +14,10 @@ from Python.x_Utilitaires import *
 
 def addLinePlayers(player_ids, engine):
     for player_id in player_ids:
+        
         try:
-            # Charger votre DataFrame
-            DF_joueur_info = commonplayerinfo.CommonPlayerInfo(player_id=player_id).get_data_frames()[0]
-            # exporter_vers_Excel_generique(DF_joueur_info, "DF_joueur_info")
-            # print(DF_joueur_info)
-
-            df = pd.DataFrame(DF_joueur_info)
+            # Chargement du DF CommonPlayerInfo
+            DF_joueur_CommonPlayerInfo = pd.DataFrame(commonplayerinfo.CommonPlayerInfo(player_id=player_id).get_data_frames()[0])
 
             # Spécifier l'équivalence des colonnes
             Player_API_DB_column_equivalences = {
@@ -59,21 +56,23 @@ def addLinePlayers(player_ids, engine):
                 'GREATEST_75_FLAG': 'greatest_75_flag'
             }
 
-            # Renommer les colonnes du DataFrame en utilisant les correspondances spécifiées
-            df = df.rename(columns=Player_API_DB_column_equivalences)
+            # Renommer les colonnes du DF CommonPlayerInfo en utilisant les correspondances spécifiées
+            DF_joueur_CommonPlayerInfo = DF_joueur_CommonPlayerInfo.rename(columns=Player_API_DB_column_equivalences)
 
             # Stocker le DataFrame dans la base de données
             table_name = 'player'
-            df.to_sql(table_name, engine, if_exists='append', index=False)
+            DF_joueur_CommonPlayerInfo.to_sql(table_name, engine, if_exists='append', index=False)
+
         except IntegrityError as e:
-            print("Erreur d'intégrité lors de l'insertion dans la base de données pour le joueur avec l'ID :", player_id, "-", e)
+            error_message = "\n" + str(e)[:160] # "\n" pour revenir à la ligne, puis n'afficher que le début de l'erreur (160 premiers caractères)
+            print("Erreur d'intégrité lors de la mise à jour des données pour le joueur avec l'ID :", player_id, error_message)
 
 # ------------------------------
 # Point d'entrée du programme
 if __name__ == "__main__":
     
     # Liste d'IDs de joueurs
-    player_ids = [2544]
+    player_ids = [203076]
 
     engine = CreerEngineSQL()
 
