@@ -31,9 +31,16 @@ def obtenir_DF_X_prochains_matchs_un_joueur(joueur_id, nb_prochains_matchs, nb_m
 
         # Filtrer pour ne garder que les dates après celle qui nous intéresse et reset l'index, pour que la boucle ci-dessous fonctionne
         DF_prochains_matchs = DF_prochains_matchs[DF_prochains_matchs['GAME_DATE'] >= date_du_jour].reset_index(drop=True)
+        
+        # S'assurer qu'il reste assez de matchs pour en obtenir le nombre souhaité
+        indexMin = 1 + nb_matchs_a_sauter
+        indexMax = nb_prochains_matchs + 1 + nb_matchs_a_sauter
+        if indexMax > len(DF_prochains_matchs):
+            indexMax = len(DF_prochains_matchs)
 
         data = {'Joueur': [joueur_nom]}
-        for i in range(1 + nb_matchs_a_sauter, nb_prochains_matchs + 1 + nb_matchs_a_sauter):
+
+        for i in range(indexMin, indexMax):
 
             home_team_id = DF_prochains_matchs.loc[i - 1, 'HOME_TEAM_ID']
 
@@ -72,6 +79,11 @@ def obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_
     # Concaténer tous les DataFrames de la liste en un seul DataFrame
     DF_X_prochains_matchs = pd.concat(liste_DF_X_prochains_matchs, ignore_index=True)
 
+    # Gestion des 0 (en fin de saison)
+    DF_X_prochains_matchs = DF_X_prochains_matchs.fillna(0)             # Trasnformer les NaN en 0
+    # DF_X_prochains_matchs = DF_X_prochains_matchs.round(0).astype(int)  # Convertir les valeurs en integer pour ne plus avoir de décimales
+    DF_X_prochains_matchs = DF_X_prochains_matchs.replace(0,"-")        # Remplacer les 0 par des tirets pour la lisibilité
+
     # Enlever les joueurs pour les besoins du TI global
     DF_X_prochains_matchs = DF_X_prochains_matchs.drop(columns=['Joueur'])
 
@@ -83,10 +95,10 @@ def obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_
 if __name__ == "__main__":
 
     # Variables
-    ids_joueurs = [1627759, 203944, 1631094, 203497, 1630595, 1628978, 1630532, 1631105]
+    ids_joueurs = [1628378, 203954, 1630578, 1630162, 1627742, 202710]
     nb_prochains_matchs = 4     # Nombre de prochains matchs à récupérer
     nb_matchs_a_sauter = 1      # Nombre de matchs à sauter
-    date_du_jour = '24/02/2024' # Date du jour qui nous intéresse
+    date_du_jour = '07/04/2024' # Date du jour qui nous intéresse
 
     DF_X_prochains_matchs = obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_sauter, date_du_jour)
 
