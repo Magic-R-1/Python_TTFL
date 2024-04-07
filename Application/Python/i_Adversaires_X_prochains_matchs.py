@@ -92,11 +92,6 @@ def obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_
     # Concaténer tous les DataFrames de la liste en un seul DataFrame
     DF_X_prochains_matchs = pd.concat(liste_DF_X_prochains_matchs, ignore_index=True)
 
-    # Gestion des 0 (en fin de saison)
-    # DF_X_prochains_matchs = DF_X_prochains_matchs.fillna(0)             # Trasnformer les NaN en 0
-    # DF_X_prochains_matchs = DF_X_prochains_matchs.round(0).astype(int)  # Convertir les valeurs en integer pour ne plus avoir de décimales
-    # DF_X_prochains_matchs = DF_X_prochains_matchs.replace(0,"-")        # Remplacer les 0 par des tirets pour la lisibilité
-
     # Enlever les joueurs pour les besoins du TI global
     DF_X_prochains_matchs = DF_X_prochains_matchs.drop(columns=['Joueur'])
 
