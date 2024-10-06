@@ -260,7 +260,7 @@ def obtenir_equipeABV_avec_equipeID(id_equipe):
 def exporter_vers_Excel_generique(DF, file_name):
 
     # Spécifiez le chemin du dossier
-    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel'
+    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Python_TTFL\Excel'
 
     # Obtenez la date du jour
     date_du_jour = datetime.now().strftime('%y_%m_%d')
@@ -281,7 +281,7 @@ def exporter_vers_Excel_generique(DF, file_name):
 def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour, suffixe=None):
 
     # Spécifiez le chemin du dossier
-    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel\TI'
+    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Python_TTFL\Excel\TI'
 
     # Conversion de la date du jour
     date_du_jour = datetime.strptime(date_du_jour, '%d/%m/%Y')  # Convertir la chaîne en objet datetime
@@ -305,7 +305,7 @@ def exporter_vers_Excel_mon_TI(mon_TI, date_du_jour, suffixe=None):
 def exporter_vers_Excel_impact_poste(DF_impact_poste, suffixe=None):
 
     # Spécifiez le chemin du dossier
-    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Code\envPython\Python_TTFL\Excel\Impact_poste'
+    chemin_fichier_excel = r'C:\Users\egretillat\Documents\Personnel\Python_TTFL\Excel\Impact_poste'
 
     # Obtenez la date du jour
     date_du_jour = datetime.now().strftime('%Y_%m_%d')
