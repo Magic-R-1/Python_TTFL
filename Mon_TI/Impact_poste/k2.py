@@ -1,7 +1,7 @@
 # Code donnant la somme TTFL et minutes par match pour tous les matchs pour une équipe
 
 import sys
-sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Mon_TI')
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Python_TTFL/Mon_TI')
 
 import pandas as pd
 from nba_api.stats.endpoints import boxscoretraditionalv2

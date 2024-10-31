@@ -115,7 +115,7 @@ def sauvegarder_cache_CommonPlayerInfo():
     # Pour accéder au dictionnaire global
     global cache_CommonPlayerInfo
 
-    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/cache_CommonPlayerInfo.pkl"
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Python_TTFL/Cache/cache_CommonPlayerInfo.pkl"
     # Sauvegarder le cache dans le fichier
     with open(file_path, 'wb') as file:
         pickle.dump(cache_CommonPlayerInfo, file)
@@ -126,7 +126,7 @@ def charger_cache_CommonPlayerInfo():
     # Pour accéder au dictionnaire global
     global cache_CommonPlayerInfo
 
-    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/cache_CommonPlayerInfo.pkl"
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Python_TTFL/Cache/cache_CommonPlayerInfo.pkl"
     # Charger le cache depuis le fichier
     try:
         with open(file_path, 'rb') as file:
@@ -165,7 +165,7 @@ def vider_remplir_cache_CommonPlayerInfo():
     ###########################################
     # Vider le fichier
     # Chemin vers le fichier cache_CommonPlayerInfo.pkl
-    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/cache_CommonPlayerInfo.pkl"
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Python_TTFL/Cache/cache_CommonPlayerInfo.pkl"
     
     # Ouvrir le fichier en mode écriture
     with open(file_path, 'w') as fichier:
@@ -201,7 +201,7 @@ def sauvegarder_cache_BoxScoreTraditionalV2():
     global cache_BoxScoreTraditionalV2
 
     # Générer le nom de fichier
-    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/cache_BoxScoreTraditionalV2.pkl"
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Python_TTFL/Cache/cache_BoxScoreTraditionalV2.pkl"
     # Sauvegarder le cache dans le fichier
     with open(file_path, 'wb') as file:
         pickle.dump(cache_BoxScoreTraditionalV2, file)
@@ -213,7 +213,7 @@ def charger_cache_BoxScoreTraditionalV2():
     global cache_BoxScoreTraditionalV2
 
     # Générer le nom de fichier
-    file_path = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Cache/cache_BoxScoreTraditionalV2.pkl"
+    file_path = f"C:/Users/egretillat/Documents/Personnel/Python_TTFL/Cache/cache_BoxScoreTraditionalV2.pkl"
     # Charger le cache depuis le fichier
     try:
         with open(file_path, 'rb') as file:

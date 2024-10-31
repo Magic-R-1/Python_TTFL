@@ -4,7 +4,7 @@ import matplotlib.image as mpimg
 from PIL import Image
 
 import sys
-sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Mon_TI')
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Python_TTFL/Mon_TI')
 
 from k_Impact_poste import *
 
@@ -116,7 +116,7 @@ def creation_et_affichage_du_graphique(poste, DF_delta_poste_unique):
 
 def ajout_image(y_min, y_max, team, x_position, y_position):
     
-    chemin = f"C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Charts/Logos/{team}.png"
+    chemin = f"C:/Users/egretillat/Documents/Personnel/Python_TTFL/Charts/Logos/{team}.png"
 
     # Charger et afficher l'image
     img = mpimg.imread(chemin)  # Remplacez "chemin_vers_votre_image/image.jpg" par le chemin de votre image

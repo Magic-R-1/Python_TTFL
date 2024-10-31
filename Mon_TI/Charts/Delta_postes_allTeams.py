@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 import sys
-sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Mon_TI')
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Python_TTFL/Mon_TI')
 
 from k_Impact_poste import *
 

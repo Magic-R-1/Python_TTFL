@@ -1,7 +1,7 @@
 # OK pour une équipe
 
 import sys
-sys.path.append('C:/Users/egretillat/Documents/Personnel/Code/envPython/Python_TTFL/Mon_TI')
+sys.path.append('C:/Users/egretillat/Documents/Personnel/Python_TTFL/Mon_TI')
 
 import pandas as pd
 import numpy as np
