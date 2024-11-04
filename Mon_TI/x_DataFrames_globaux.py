@@ -6,7 +6,7 @@ from json.decoder import JSONDecodeError
 from nba_api.stats.endpoints import playernextngames, playergamelog, teamgamelog, commonplayerinfo, boxscoretraditionalv2
 from nba_api.stats.static import teams
 
-ma_saison = '2023'
+ma_saison = '2024'
 
 liste_equipes = None
 dictionnaire_TeamGameLog = {}
@@ -238,3 +238,9 @@ def obtenir_BoxScoreTraditionalV2_DF_globaux(match_id):
         DF_logs_match = cache_BoxScoreTraditionalV2[match_id]
     return DF_logs_match
 # --------------------------------------------------------------------------------------------
+
+# ------------------------------
+# N'exécuter que si appelé ici directement
+if __name__ == "__main__":
+
+   vider_remplir_cache_CommonPlayerInfo()

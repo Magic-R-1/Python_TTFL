@@ -36,7 +36,13 @@ def obtenir_prochain_match_domicile_ou_exterieur(joueur_id, date_du_jour):
 # ------------------------------
 # Moyenne gloabale
 def obtenir_moyenne_globale(DF_joueur):
-    moyenne_globale = DF_joueur.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    
+    # try-except pour les joueurs NBA et qui n'ont aucune donnée (plus en NBA, ou pas encore joué cette saison)
+    try:
+        moyenne_globale = DF_joueur.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    except AttributeError:
+        moyenne_globale = 0
+
     return moyenne_globale
 
 # ------------------------------
@@ -47,7 +53,11 @@ def obtenir_moyenne_domicile_ou_exterieur(DF_joueur, vs_or_at):
     DF_domicile_ou_exterieur = DF_joueur[DF_joueur['MATCHUP'].str.contains(vs_or_at, case=False, na=False)]
 
     # Calculer la moyenne
-    moyenne_domicile_ou_exterieur = DF_domicile_ou_exterieur.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    # try-except pour les joueurs NBA et qui n'ont aucune donnée (plus en NBA, ou pas encore joué cette saison)
+    try:
+        moyenne_domicile_ou_exterieur = DF_domicile_ou_exterieur.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    except AttributeError:
+        moyenne_domicile_ou_exterieur = 0
 
     return moyenne_domicile_ou_exterieur
 
@@ -70,7 +80,11 @@ def obtenir_array_delta_domicile_ou_exterieur(joueur_id, date_du_jour):
     moyenne_domicile_ou_exterieur = obtenir_moyenne_domicile_ou_exterieur(DF_joueur, vs_or_at)
 
     # Calculer la différence entre la moyenne à domicile ou à l'extérieur et la moyenne globale
-    delta_domicile_ou_exterieur = (moyenne_domicile_ou_exterieur - moyenne_globale).round(1)
+    # try-except pour les joueurs NBA et qui n'ont aucune donnée (plus en NBA, ou pas encore joué cette saison)
+    try:
+        delta_domicile_ou_exterieur = (moyenne_domicile_ou_exterieur - moyenne_globale).round(1)
+    except AttributeError:
+        delta_domicile_ou_exterieur = 0
 
     # Créer un tableau avec le nom du joueur, si le prochain match est à domicile ou à l'extérieur, et le delta
     array_delta_domicile_ou_exterieur = [joueur_nom, vs_or_at, delta_domicile_ou_exterieur]

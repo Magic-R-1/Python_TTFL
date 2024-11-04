@@ -55,7 +55,11 @@ def obtenir_moyenne_TTFL_B2B(DF_joueur):
     DF_2e_jour = DF_joueur[DF_joueur['jours_entre'] == 1]
 
     # Calculer le score TTFL moyen pour toutes les lignes de DF_2e_jour
-    moyenne_TTFL_B2B = DF_2e_jour.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    # try-except pour les joueurs NBA et qui n'ont aucune donnée (plus en NBA, ou pas encore joué cette saison)
+    try:
+        moyenne_TTFL_B2B = DF_2e_jour.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    except AttributeError:
+        moyenne_TTFL_B2B = 0
 
     return moyenne_TTFL_B2B
 

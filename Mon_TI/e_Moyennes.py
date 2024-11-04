@@ -14,9 +14,22 @@ def obtenir_array_moyennes(joueur_id):
     DF_joueur = obtenir_PlayerGameLog_DF_globaux(joueur_id)
 
     # Calculer les moyennes
-    moyenne_5_premieres = DF_joueur.head(5).apply(calcul_score_TTFL, axis=1).mean().round(1)
-    moyenne_15_premieres = DF_joueur.head(15).apply(calcul_score_TTFL, axis=1).mean().round(1)
-    moyenne_totale = DF_joueur.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    # try-except pour les joueurs NBA et qui n'ont aucune donnée (plus en NBA, ou pas encore joué cette saison)
+    print(joueur_nom)
+    try:
+        moyenne_5_premieres = DF_joueur.head(5).apply(calcul_score_TTFL, axis=1).mean().round(1)
+    except AttributeError:
+        moyenne_5_premieres = 0
+
+    try:
+        moyenne_15_premieres = DF_joueur.head(15).apply(calcul_score_TTFL, axis=1).mean().round(1)
+    except AttributeError:
+        moyenne_15_premieres = 0
+
+    try:
+        moyenne_totale = DF_joueur.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    except AttributeError:
+        moyenne_totale = 0
 
     array_moyennes = [joueur_nom, moyenne_5_premieres, moyenne_15_premieres, moyenne_totale]
 

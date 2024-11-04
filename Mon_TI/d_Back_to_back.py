@@ -13,7 +13,11 @@ def obtenir_array_B2B(joueur_id, date_du_jour):
     DF_liste_integralite_dates = obtenir_integralite_calendrier_joueur_avec_joueurID(joueur_id)
 
     # Vérifier si le joueur a joué la veille
-    veille = (date_du_jour - timedelta(days=1)) in DF_liste_integralite_dates.values
+    # try-except pour les joueurs NBA et qui n'ont aucune donnée (plus en NBA, ou pas encore joué cette saison)
+    try:
+        veille = (date_du_jour - timedelta(days=1)) in DF_liste_integralite_dates.values
+    except AttributeError:
+        veille = False
 
     # Test d'attribution du B2B ou non
     joueur_B2B = 'O' if veille else ''
