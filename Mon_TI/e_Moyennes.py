@@ -15,7 +15,6 @@ def obtenir_array_moyennes(joueur_id):
 
     # Calculer les moyennes
     # try-except pour les joueurs NBA et qui n'ont aucune donnée (plus en NBA, ou pas encore joué cette saison)
-    print(joueur_nom)
     try:
         moyenne_5_premieres = DF_joueur.head(5).apply(calcul_score_TTFL, axis=1).mean().round(1)
     except AttributeError:
