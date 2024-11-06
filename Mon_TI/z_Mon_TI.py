@@ -184,8 +184,8 @@ if __name__ == "__main__":
     ids_joueurs = [1630578, 1641708, 203952, 1630559, 1628389, 203992, 203078, 1627742, 1641706, 1630595, 1631096, 1626156, 1628368, 1627749, 201942, 1630217, 1628378, 1630596, 1630532, 1627832, 1629630, 1631105, 1630224, 1630552, 1627750, 201935, 1628991, 1628386, 1627759, 202710, 203954, 1630228, 1626157, 202695, 204001, 202681, 1630163, 2544, 1629008, 1628970, 202696, 1631094, 1627783, 202331, 1629628, 1629060, 201566, 1630567, 201939, 1626179, 202699, 1629639, 1630169, 1630178, 1641705, 203897, 1629627]
     date_du_jour = '06/11/2024'
 
-    mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)  # Obtenir le TI
+    mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)              # Obtenir le TI
     prefixe = ""
-    exporter_vers_Excel_mon_TI(mon_TI, date_du_jour, prefixe)    # Exporter le TI vers Excel
-    sauvegarder_cache()                                 # Sauvegarder le cache
-    print_message_de_confirmation(temps_debut)          # Afficher le message de confirmation
+    exporter_vers_Excel_mon_TI(mon_TI, date_du_jour, prefixe)       # Exporter le TI vers Excel
+    sauvegarder_cache()                                             # Sauvegarder le cache
+    print_message_de_confirmation(temps_debut)                      # Afficher le message de confirmation
