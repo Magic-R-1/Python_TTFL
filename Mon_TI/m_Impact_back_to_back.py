@@ -43,7 +43,12 @@ def obtenir_moyenne_TTFL_hors_B2B(DF_joueur):
     DF_non_consecutifs = DF_joueur[DF_joueur['jours_entre'] != 1]
 
     # Calculer la moyenne TTFL pour ces matchs
-    moyenne_TTFL_hors_B2B = DF_non_consecutifs.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    # try-except pour les joueurs NBA et qui n'ont aucune donnée (plus en NBA, ou pas encore joué cette saison)
+    try:
+        moyenne_TTFL_hors_B2B = DF_non_consecutifs.apply(calcul_score_TTFL, axis=1).mean().round(1)
+    except AttributeError:
+        moyenne_TTFL_hors_B2B = 0
+    
 
     return moyenne_TTFL_hors_B2B
 
@@ -70,8 +75,12 @@ def obtenir_delta_B2B(DF_joueur):
     moyenne_TTFL_hors_B2B = obtenir_moyenne_TTFL_hors_B2B(DF_joueur)
     moyenne_B2B = obtenir_moyenne_TTFL_B2B(DF_joueur)
 
-    delta_B2B = (moyenne_B2B - moyenne_TTFL_hors_B2B).round(1)
-
+    # try-except pour les joueurs NBA et qui n'ont aucune donnée (plus en NBA, ou pas encore joué cette saison)
+    try:
+        delta_B2B = (moyenne_B2B - moyenne_TTFL_hors_B2B).round(1)
+    except AttributeError:
+        delta_B2B = 0
+    
     return delta_B2B
 
 # ------------------------------
