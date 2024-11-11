@@ -181,8 +181,8 @@ if __name__ == "__main__":
     charger_cache()             # Charger le cache
 
     # Variables
-    ids_joueurs = [203992, 1630560, 1628378, 1630596, 1630552, 1628386, 1628374, 1629651, 202696, 1630567, 1629027, 1641705, 203897]
-    date_du_jour = '09/11/2024'
+    ids_joueurs = [1630578, 1641708, 1627742, 1630560, 1631096, 1628368, 1627749, 1628378, 1630596, 1627832, 1630224, 1628386, 1628398, 1629651, 1641705, 203897, 1629627]
+    date_du_jour = '11/11/2024'
 
     mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)              # Obtenir le TI
     prefixe = ""
