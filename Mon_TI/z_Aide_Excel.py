@@ -1,7 +1,7 @@
 from x_Utilitaires import *
 
 def obtenirIDjoueur():
-    print(obtenir_joueurID_avec_joueurNom("Jalen Williams"))
+    print(obtenir_joueurID_avec_joueurNom("DJ Carton"))
 
 def obtenirListeIDsEquipes():
     ids_joueurs = [1630578, 1641708]
