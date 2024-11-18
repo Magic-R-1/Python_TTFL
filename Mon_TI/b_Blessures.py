@@ -37,6 +37,8 @@ def obtenir_DF_blessures():
             
             try:
                 player_name = all_players[i].text.strip()
+                if "." in player_name:
+                    player_name = player_name.replace(".", "")
                 player_id = obtenir_joueurID_avec_joueurNom(player_name)
                 player_returnDate = all_players[i+1].text.strip()
                 player_status = all_players[i+2].text.strip()
