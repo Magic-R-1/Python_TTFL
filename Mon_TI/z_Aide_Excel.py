@@ -1,7 +1,11 @@
 from x_Utilitaires import *
 
 def obtenirIDjoueur():
-    print(obtenir_joueurID_avec_joueurNom("Dalton Knecht"))
+    try:
+        player_name="Cameron Johnson"
+        print(obtenir_joueurID_avec_joueurNom(player_name))
+    except Exception as e:
+        print(f"Le joueur {player_name} est introuvable")
 
 def obtenirListeIDsEquipes():
     ids_joueurs = [1630578, 1641708]
