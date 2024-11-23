@@ -181,11 +181,11 @@ if __name__ == "__main__":
     charger_cache()             # Charger le cache
 
     # Variables
-    ids_joueurs = [202696,201942,1629661,1630560,1627783,1630169,1627750, 203954, 201935]
-    date_du_jour = '22/11/2024'
+    ids_joueurs = [1641708, 203952, 1630559, 1641706, 1626156, 1642261, 1629028, 1630166, 1630217, 1630532, 1627832, 1629630, 1631105, 1630224, 1627750, 203924, 1630228, 203114, 1628374, 1629008, 1628970, 203999, 1631094, 1629060, 201566, 202699, 203897]
+    date_du_jour = '23/11/2024'
 
     mon_TI = obtenir_mon_TI(ids_joueurs, date_du_jour)              # Obtenir le TI
-    prefixe = "Romain"
+    prefixe = ""
     exporter_vers_Excel_mon_TI(mon_TI, date_du_jour, prefixe)       # Exporter le TI vers Excel
     sauvegarder_cache()                                             # Sauvegarder le cache
     print_message_de_confirmation(temps_debut)                      # Afficher le message de confirmation
