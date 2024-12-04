@@ -44,12 +44,13 @@ def obtenir_DF_X_derniers_matchs_avec_NaN(ids_joueurs, nb_derniers_matchs):
     DF_X_derniers_matchs_avec_NaN = pd.concat(liste_DF_X_derniers_matchs_avec_NaN, ignore_index=True)
 
     # Enlever les joueurs pour les besoins du TI global
-    DF_X_derniers_matchs_avec_NaN = DF_X_derniers_matchs_avec_NaN.drop(columns=['Joueur'])
+    if __name__ != "__main__":
+        DF_X_derniers_matchs_avec_NaN = DF_X_derniers_matchs_avec_NaN.drop(columns=['Joueur'])
 
-    # Gestion des 0
-    DF_X_derniers_matchs_avec_NaN = DF_X_derniers_matchs_avec_NaN.fillna(0)             # Trasnformer les NaN en 0
-    DF_X_derniers_matchs_avec_NaN = DF_X_derniers_matchs_avec_NaN.round(0).astype(int)  # Convertir les valeurs en integer pour ne plus avoir de décimales
-    DF_X_derniers_matchs_avec_NaN = DF_X_derniers_matchs_avec_NaN.replace(0,"-")        # Remplacer les 0 par des tirets pour la lisibilité
+        # Gestion des 0
+        DF_X_derniers_matchs_avec_NaN = DF_X_derniers_matchs_avec_NaN.fillna(0)             # Trasnformer les NaN en 0
+        DF_X_derniers_matchs_avec_NaN = DF_X_derniers_matchs_avec_NaN.round(0).astype(int)  # Convertir les valeurs en integer pour ne plus avoir de décimales
+        DF_X_derniers_matchs_avec_NaN = DF_X_derniers_matchs_avec_NaN.replace(0,"-")        # Remplacer les 0 par des tirets pour la lisibilité
 
     return DF_X_derniers_matchs_avec_NaN
 

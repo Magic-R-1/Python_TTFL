@@ -13,7 +13,7 @@ def obtenir_array_nb_matchs_joues_derniers_X_jours(joueur_id,nb_jours_matchs_jou
     # Obtenez la date actuelle et la date d'il y a 30 jours
     start_date = datetime.now() - timedelta(days=nb_jours_matchs_joues)
 
-    # Obtenir le DF des prochains matchs du joueur
+    # Obtenir le DF des matchs joués par le joueur
     DF_joueur_1 = obtenir_PlayerGameLog_DF_globaux(joueur_id)
 
     # Copie du DF, puisqu'il me semble que la conversion de la date la ligne suivante, impactait le DF_joueur dans d'autres modules...

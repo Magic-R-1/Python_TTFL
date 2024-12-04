@@ -73,7 +73,8 @@ def obtenir_DF_X_prochains_matchs(ids_joueurs, nb_prochains_matchs, nb_matchs_a_
     DF_X_prochains_matchs = pd.concat(liste_DF_X_prochains_matchs, ignore_index=True)
 
     # Enlever les joueurs pour les besoins du TI global
-    DF_X_prochains_matchs = DF_X_prochains_matchs.drop(columns=['Joueur'])
+    if __name__ != "__main__":
+        DF_X_prochains_matchs = DF_X_prochains_matchs.drop(columns=['Joueur'])
 
     # Retourner le DataFrame final
     return DF_X_prochains_matchs

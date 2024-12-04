@@ -106,7 +106,8 @@ def obtenir_DF_impact_domicile_ou_exterieurs(ids_joueurs, date_du_jour):
             DF_impact_domicile_ou_exterieurs.loc[len(DF_impact_domicile_ou_exterieurs)] = array_delta_domicile_ou_exterieur
     
     # Enlever les joueurs pour les besoins du TI global
-    DF_impact_domicile_ou_exterieurs = DF_impact_domicile_ou_exterieurs.drop(columns=['Joueur'])
+    if __name__ != "__main__":
+        DF_impact_domicile_ou_exterieurs = DF_impact_domicile_ou_exterieurs.drop(columns=['Joueur'])
 
     return DF_impact_domicile_ou_exterieurs   
 

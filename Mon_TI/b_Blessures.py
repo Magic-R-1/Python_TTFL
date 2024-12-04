@@ -160,7 +160,8 @@ def obtenir_DF_joueurs_status(ids_joueurs):
     DF_joueurs_status = DF_joueurs_status[['Joueur', 'Statut']]
 
     # Enlever les joueurs pour les besoins du TI global
-    DF_joueurs_status = DF_joueurs_status.drop(columns=['Joueur'])
+    if __name__ != "__main__":
+        DF_joueurs_status = DF_joueurs_status.drop(columns=['Joueur'])
 
     return DF_joueurs_status
 

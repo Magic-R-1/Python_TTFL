@@ -48,7 +48,8 @@ def obtenir_DF_moyennes(ids_joueurs):
         DF_moyennes.loc[len(DF_moyennes)] = array_moyennes
 
     # Enlever les joueurs pour les besoins du TI global
-    DF_moyennes = DF_moyennes.drop(columns=['Joueur'])
+    if __name__ != "__main__":
+        DF_moyennes = DF_moyennes.drop(columns=['Joueur'])
 
     # Retourner les moyennes
     return DF_moyennes

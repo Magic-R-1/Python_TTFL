@@ -26,7 +26,8 @@ def obtenir_DF_postes(ids_joueurs):
         DF_postes.loc[len(DF_postes)] = array_nom_poste         # Ajout en dernière ligne du DF
 
     # Enlever les joueurs pour les besoins du TI global
-    DF_postes = DF_postes.drop(columns=['Joueur'])
+    if __name__ != "__main__":
+        DF_postes = DF_postes.drop(columns=['Joueur'])
 
     return DF_postes
 

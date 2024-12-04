@@ -44,7 +44,8 @@ def obtenir_DF_intervalles_derniers_X_jours(ids_joueurs, nb_jours_matchs_joues, 
         DF_intervalles.loc[len(DF_intervalles)] = obtenir_array_intervalles_derniers_X_jours(joueur_id,limite_1,limite_2,limite_3,nb_jours_matchs_joues)
 
     # Enlever les joueurs pour les besoins du TI global
-    DF_intervalles = DF_intervalles.drop(columns=['Joueur'])
+    if __name__ != "__main__":
+        DF_intervalles = DF_intervalles.drop(columns=['Joueur'])
 
     return DF_intervalles
 
