@@ -50,7 +50,8 @@ def obtenir_DF_back_to_back(ids_joueurs, date_du_jour):
         DF_back_to_back.loc[len(DF_back_to_back)] = array_B2B   # Ajout en dernière ligne du DF
     
     # Enlever les joueurs pour les besoins du TI global
-    DF_back_to_back = DF_back_to_back.drop(columns=['Joueur'])
+    if __name__ != "__main__":
+        DF_back_to_back = DF_back_to_back.drop(columns=['Joueur'])
 
     return DF_back_to_back
 
@@ -59,8 +60,8 @@ def obtenir_DF_back_to_back(ids_joueurs, date_du_jour):
 if __name__ == "__main__":
 
     # Liste d'identifiants de joueurs
-    ids_joueurs = [2544, 201935, 202695, 202331, 1630567, 1628398, 203076, 1628983, 1627742, 1628368, 1626164]
-    date_du_jour = '23/02/2024'
+    ids_joueurs = [201935, 1630178, 202331, 1631094, 203954, 202695, 203114]
+    date_du_jour = '04/12/2024'
 
     DF_back_to_back = obtenir_DF_back_to_back(ids_joueurs, date_du_jour)
 

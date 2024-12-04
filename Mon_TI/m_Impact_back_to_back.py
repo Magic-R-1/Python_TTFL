@@ -91,10 +91,13 @@ def obtenir_array_delta_nb_B2B(joueur_id, row):
     DF_joueur = obtenir_stats_joueur_avec_delta_jours(joueur_id)
 
     joueur_nom = obtenir_joueurNom_avec_joueurID(joueur_id)
+
+    nombre_de_B2B = obtenir_nombre_de_B2B(DF_joueur)
     
-    if row[1]['B2B'] == 'O':
+    # le joueur est en back to back à la date demandée, et il en a déjà fait
+    if row[1]['B2B'] == 'O' and nombre_de_B2B > 0:
         delta_B2B = obtenir_delta_B2B(DF_joueur)
-        nombre_de_B2B = obtenir_nombre_de_B2B(DF_joueur)
+        # nombre_de_B2B = obtenir_nombre_de_B2B(DF_joueur)
     else:
         delta_B2B = ''
         nombre_de_B2B = ''
@@ -117,7 +120,8 @@ def obtenir_DF_impact_B2B(ids_joueurs, date_du_jour):
         DF_impact_B2B.loc[len(DF_impact_B2B)] = array_delta_nb_B2B
 
     # Enlever les joueurs pour les besoins du TI global
-    DF_impact_B2B = DF_impact_B2B.drop(columns=['Joueur'])
+    if __name__ != "__main__":
+        DF_impact_B2B = DF_impact_B2B.drop(columns=['Joueur'])
 
     return DF_impact_B2B
 
@@ -126,8 +130,8 @@ def obtenir_DF_impact_B2B(ids_joueurs, date_du_jour):
 if __name__ == "__main__":
 
     # Liste de joueurs
-    ids_joueurs = [1630578,203952,203076,1630162,1630559,1628389,203078,1627742]
-    date_du_jour = '23/02/2024'
+    ids_joueurs = [201935, 1630178, 202331, 1631094, 203954, 202695, 203114]
+    date_du_jour = '04/12/2024'
 
     DF_impact_B2B = obtenir_DF_impact_B2B(ids_joueurs, date_du_jour)
 

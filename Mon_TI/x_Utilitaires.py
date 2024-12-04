@@ -174,12 +174,15 @@ def obtenir_un_coequipier_dans_equipe_avec_joueurID(joueur_id):
 # --------------------------------------------------------------------------------------------
 def obtenir_integralite_calendrier_joueur_avec_joueurID(joueur_id):
     try:
-        # Obtenir l'id de l'équipe
-        id_equipe = obtenir_equipeID_avec_joueurID(joueur_id)
+        
+        # Obtenir le DF des matchs joués par le joueur
+        DF_joueur_1 = obtenir_PlayerGameLog_DF_globaux(joueur_id)
 
-        # Récupérer les dates des matchs précédents du joueur
-        matchs_precedents = obtenir_equipe_derniers_matchs_DF_globaux(id_equipe)
-        matchs_precedents = pd.to_datetime(matchs_precedents['GAME_DATE'], format='%b %d, %Y')
+        # Copie du DF, puisqu'il me semble que la conversion de la date la ligne suivante, impactait le DF_joueur dans d'autres modules...
+        DF_joueur = DF_joueur_1.copy()
+
+        # Convertir la colonne 'GAME_DATE' en type de données datetime
+        matchs_precedents = pd.to_datetime(DF_joueur['GAME_DATE'], format='%b %d, %Y')
 
         # Récupérer les dates des matchs à venir du joueur
         matchs_a_venir = obtenir_PlayerNextNGames_DF_globaux(joueur_id)
