@@ -50,7 +50,7 @@ def obtenir_DF_blessures():
                 liste_data_blessure_joueurs.append([player_name, player_id, player_returnDate, player_status, player_comment])
             
             except Exception as e:
-                print(f"Erreur lors du traitement du joueur {player_name} pour récupérer son ID depuis EPSN")
+                # print(f"Erreur lors du traitement du joueur {player_name} pour récupérer son ID depuis EPSN")
                 continue  # Passe à l'itération suivante
 
         # Créer un DataFrame pandas à partir des données des joueurs
