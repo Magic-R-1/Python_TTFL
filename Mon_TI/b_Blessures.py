@@ -26,7 +26,7 @@ def obtenir_DF_blessures():
 
         soup = BeautifulSoup(html_content, "html.parser") # Analyser le HTML avec BeautifulSoup
 
-        # Trouver tous les éléments de la page avec les classes "col-name Table__TD" et "col-stat Table__TD"
+        # Trouver tous les éléments de la page avec les classes "col-name Table__TD", "col-date Table__TD", "col-stat Table__TD" et "col-desc Table__TD"
         all_players = soup.find_all("td", class_=["col-name Table__TD","col-date Table__TD", "col-stat Table__TD","col-desc Table__TD"])
         
         # Initialiser une liste pour stocker les données des joueurs
@@ -63,7 +63,7 @@ def obtenir_DF_blessures():
         print("La requête a échoué avec le code de statut:", response.status_code)
 
 # ------------------------------
-# Fonction pour détecter la présence des mots probable, questiobale, et doubtful dans les commentaires
+# Fonction pour détecter la présence des mots probable, questionable, et doubtful dans les commentaires
 def gestion_status_probable_questiobale_doubtful(player_status, player_comment):
 
     if player_status == 'Day-To-Day':
